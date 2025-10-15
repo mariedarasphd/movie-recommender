@@ -1,0 +1,6 @@
+streamlit
+pandas
+requests
+streamlit-aggrid
+efficient-apriori
+
