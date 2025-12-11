@@ -1,8 +1,7 @@
-Dockerfile
-app.py
-requirements.txt
-movies.csv
-ratings.csv
-rules.pkl
-mariedaraslogo.png
+streamlit
+pandas
+numpy
+streamlit-aggrid
+efficient-apriori
+
 
