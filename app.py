@@ -1,66 +1,50 @@
-# -*- coding: utf-8 -*-
 import streamlit as st
 import pandas as pd
 from st_aggrid import AgGrid, GridOptionsBuilder
 import pickle
 
 # --------------------------
-# Page Config
-# --------------------------
-st.set_page_config(
-    page_title="Golden Age Movie Recommender",
-    layout="wide"
-)
-
-# --------------------------
 # Tiffany Blue Theme
 # --------------------------
 st.markdown("""
     <style>
-    .stApp {
-        background-color: #E0F7FA;
-        color: #0ABAB5;
-    }
-    h1, h2, h3, h4 {
-        color: #0ABAB5;
-    }
-    .stButton>button {
-        background-color: #0ABAB5;
-        color: white;
-    }
+    .stApp { background-color: #E0F7FA; color: #0ABAB5; }
+    h1, h2, h3, h4 { color: #0ABAB5; }
+    .stButton>button { background-color: #0ABAB5; color: white; }
     </style>
 """, unsafe_allow_html=True)
 
 # --------------------------
 # Centered Logo
 # --------------------------
-st.image("mariedaraslogo.png", width=200)
+st.markdown(
+    "<div style='text-align: center;'><img src='https://raw.githubusercontent.com/mariedarasphd/movie-recommender/main/mariedaraslogo.png' width='200'></div>",
+    unsafe_allow_html=True
+)
 st.title("🎬 Golden Age Movie Recommender")
 
 # --------------------------
-# Load Data from repo
+# Load Data
 # --------------------------
 @st.cache_data
 def load_data():
     movies = pd.read_csv("movies.csv")
     ratings = pd.read_csv("ratings.csv")
-
+    
     df = pd.merge(movies, ratings, on='movieId', how='outer')
     df[['Movie', 'Year']] = df['title'].str.extract(r'(.+?)\s*\((\d{4})\)')
     df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
     df_clean = df.dropna(subset=['userId','rating','Year'])
-
+    
     golden_age = df_clean[(df_clean['Year'] >= 1930) & (df_clean['Year'] <= 1969)]
-
     top_movies = golden_age['movieId'].value_counts().nlargest(500).index
     filtered_data = golden_age[golden_age['movieId'].isin(top_movies)]
-
     filtered_data = filtered_data[~filtered_data['Movie'].str.contains('Disney', na=False)]
     filtered_data = filtered_data[~filtered_data['genres'].str.contains("Childre|Family", na=False)]
-
+    
     transactions = filtered_data.groupby('userId')['movieId'].apply(list).tolist()
     movie_dict = movies.set_index('movieId')['title'].to_dict()
-
+    
     return transactions, movie_dict
 
 transactions, movie_dict = load_data()
@@ -101,36 +85,23 @@ if search_movie:
         (rec_df["If you like"].str.contains(search_movie, case=False, na=False)) |
         (rec_df["You might like"].str.contains(search_movie, case=False, na=False))
     ]
-
 rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
 
 st.subheader(f"Recommendations for: {search_movie if search_movie else 'All Movies'}")
 
 # --------------------------
-# Streamlit-AgGrid Table
+# Center table with AgGrid
 # --------------------------
-st.markdown(
-    """
-    <style>
-    .centered-table {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 30px;
-        margin-bottom: 50px;
-    }
-    .centered-table .ag-theme-material {
-        width: 90%;
-        max-width: 1200px;
-        border: 2px solid #0ABAB5;
-        border-radius: 10px;
-        padding: 10px;
-        background-color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<style>
+.centered-table {
+    display: flex; justify-content: center; align-items: center; margin-top: 30px; margin-bottom: 50px;
+}
+.centered-table .ag-theme-material {
+    width: 90%; max-width: 1200px; border: 2px solid #0ABAB5; border-radius: 10px; padding: 10px; background-color: white;
+}
+</style>
+""", unsafe_allow_html=True)
 
 if rec_df.empty:
     st.warning("No recommendations found for this selection.")
