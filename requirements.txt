@@ -1,6 +1,8 @@
-streamlit
-pandas
-numpy
-requests
-streamlit-aggrid
-efficient-apriori
+Dockerfile
+app.py
+requirements.txt
+movies.csv
+ratings.csv
+rules.pkl
+mariedaraslogo.png
+
