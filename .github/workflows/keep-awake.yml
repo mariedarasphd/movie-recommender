@@ -1,0 +1,17 @@
+name: Keep Streamlit Awake
+
+# Run every 10 minutes (cron syntax: minute hour day month weekday)
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send GET request to Streamlit app
+        # The -s flag silences output; -o /dev/null discards the body.
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" \
+            -H "User-Agent: Mozilla/5.0 (GitHub Actions)" \
+            https://movie-recommender-customer.streamlit.app/
