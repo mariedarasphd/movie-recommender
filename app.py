@@ -11,10 +11,32 @@ import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 
 # -------------------------------------------------
-# Custom CSS + logo (Tiffany‑blue background)
+# Custom CSS – Tiffany‑blue theme
 # -------------------------------------------------
 CUSTOM_CSS = """
-/* Add any custom CSS you want here */
+/* Whole‑page background */
+body {
+    background-color: #0ABAB5;   /* Tiffany‑blue */
+    color: #ffffff;             /* light text for contrast */
+}
+
+/* Streamlit containers (cards, sidebars, etc.) */
+section[data-testid="stSidebar"],
+div[data-testid="stBlockContainer"] {
+    background-color: #0ABAB5;
+    border-radius: 8px;
+}
+
+/* Headings – a slightly darker shade for readability */
+h1, h2, h3, h4, h5, h6 {
+    color: #006D71;   /* darker teal */
+}
+
+/* Links */
+a {
+    color: #ffffff;
+    text-decoration: underline;
+}
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
@@ -36,7 +58,7 @@ else:
 st.set_page_config(
     page_title="Movie Recommender",
     page_icon="🎬",
-    layout="wide",          # <-- only one layout argument, comma separates args
+    layout="wide",          # only one layout argument
 )
 
 # -------------------------------------------------
@@ -59,7 +81,7 @@ def load_data():
     # Merge and extract year from the title column
     # ------------------------------------------------------------------
     df = pd.merge(movies, ratings, on="movieId", how="outer")
-    # The title format is usually "Movie Name (1995)". Extract name & year.
+    # Expected title format: "Movie Name (1995)"
     df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*$$(\d{4})$$")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
