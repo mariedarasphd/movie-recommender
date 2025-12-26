@@ -14,6 +14,7 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 # Custom CSS – Tiffany‑blue theme
 # -------------------------------------------------
 CUSTOM_CSS = """
+<style>
 /* Whole‑page background */
 body {
     background-color: #0ABAB5;   /* Tiffany‑blue */
@@ -37,6 +38,7 @@ a {
     color: #ffffff;
     text-decoration: underline;
 }
+</style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
