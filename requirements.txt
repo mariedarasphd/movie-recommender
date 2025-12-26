@@ -3,7 +3,5 @@ pandas
 numpy
 streamlit-aggrid
 efficient-apriori
-tqdm
-
 
 
