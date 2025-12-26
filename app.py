@@ -1,55 +1,60 @@
-# -------------------------------------------------
-# app.py – Movie Recommender (styled like SMB demo)
-# -------------------------------------------------
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Executive Risk Dashboard – Streamlit app
+
+- Theme (Tiffany blue) and logo are defined directly in this file.
+- Data source: demo_nsfw_personal.csv (must be in the repo root).
+"""
 
 import pathlib
-import pickle
-
+import re
 import pandas as pd
 import streamlit as st
-from st_aggrid import AgGrid, GridOptionsBuilder
+from tqdm import tqdm   # optional – provides a progress bar while reading chunks
 
 # ------------------------------------------------------------------
-# 0️⃣  Theme & logo (Tiffany‑blue)
+# 0️⃣  Page configuration (must be the very first Streamlit call)
+# ------------------------------------------------------------------
+st.set_page_config(
+    page_title="Executive Risk Dashboard",
+    page_icon="🔍",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# ------------------------------------------------------------------
+# 1️⃣  Theme & logo (Tiffany‑blue)
 # ------------------------------------------------------------------
 CUSTOM_CSS = """
 <style>
-/* Whole‑page background */
+/* ---------- Global page styling ---------- */
 body {
     background-color: #0ABAB5;   /* Tiffany blue */
     color: #ffffff;              /* White text */
 }
 
-/* Sidebar – works on older and newer Streamlit releases */
-section[data-testid="stSidebar"],
-.css-1d391kg {               /* fallback selector for newer builds */
-    background-color: #0ABAB5;
-}
+/* ---------- Sidebar, header & footer ---------- */
+[data-testid="stSidebar"] { background-color: #0ABAB5; }
+section[data-testid="stHeader"] { background-color: #0ABAB5; }
+footer { background-color: #0ABAB5; }
 
-/* Header bar */
-section[data-testid="stHeader"],
-.css-1v0mbdj {               /* fallback selector for newer builds */
-    background-color: #0ABAB5;
-}
-
-/* Footer (if you ever add one) */
-footer {
-    background-color: #0ABAB5;
-}
-
-/* Reduce default padding around the main block */
+/* ---------- Reduce vertical padding & add top space ---------- */
+/* .block-container wraps the whole page content */
 .block-container {
-    padding-top: 0rem;
+    padding-top: 40px;   /* push the title down so it isn’t cut off */
     padding-bottom: 0rem;
 }
 
-/* Optional: style a logo image you might embed elsewhere */
+/* ---------- Logo image sizing (used in the sidebar) ---------- */
 .logo-img {
     max-height: 60px;
     margin-right: 12px;
 }
 </style>
 """
+# Send the CSS to the browser
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
 # ----- logo -------------------------------------------------
@@ -64,192 +69,282 @@ else:
     )
 
 # ------------------------------------------------------------------
-# Page configuration
+# 2️⃣  Paths & constants for the data file
 # ------------------------------------------------------------------
-st.set_page_config(
-    page_title="Movie Recommender",
-    page_icon="🎬",
-    layout="wide",
+DATA_PATH = pathlib.Path(__file__).parent / "demo_nsfw_personal.csv"
+
+# ------------------------------------------------------------------
+# 3️⃣  Load the CSV (cached – runs only once per session)
+# ------------------------------------------------------------------
+@st.cache_data(ttl=86_400)   # cache for 24 h (refresh daily)
+def load_data() -> pd.DataFrame:
+    """Read demo_nsfw_personal.csv, keep needed columns,
+    add missing ones with safe defaults, and create masked text columns."""
+    if not DATA_PATH.is_file():
+        st.error(f"❌ Data file not found at `{DATA_PATH}`")
+        st.stop()
+
+    # ------------------- columns we need -------------------
+    needed_cols = [
+        "exec_id",
+        "email_message",
+        "email_sentiment",
+        "risk_flag_email",
+        "message",
+        "flag_nsfw",
+        "flag_fin",
+        "flag_compliance",
+        "chat_sentiment",
+        "ts",
+        "category",
+        "amt_usd",
+        "over_limit",
+        "personal_use",
+        "flag_compliance_txn",
+    ]
+
+    # ------------------- read in chunks --------------------
+    CHUNK_SIZE = 200_000
+    chunks = []
+
+    with st.spinner("⏳ Loading CSV in chunks…"):
+        for chunk in tqdm(
+            pd.read_csv(
+                DATA_PATH,
+                engine="python",
+                encoding="utf-8",
+                usecols=lambda c: c in needed_cols,
+                chunksize=CHUNK_SIZE,
+            ),
+            desc="Reading CSV",
+        ):
+            # cast booleans
+            for col in [
+                "risk_flag_email",
+                "flag_nsfw",
+                "flag_fin",
+                "flag_compliance",
+                "over_limit",
+                "personal_use",
+                "flag_compliance_txn",
+            ]:
+                if col in chunk.columns:
+                    chunk[col] = chunk[col].astype(bool)
+
+            # timestamps
+            if "ts" in chunk.columns:
+                chunk["ts"] = pd.to_datetime(chunk["ts"], utc=True, errors="coerce")
+
+            chunks.append(chunk)
+
+    df = pd.concat(chunks, ignore_index=True)
+
+    # ------------------- fill missing columns -------------
+    missing = set(needed_cols) - set(df.columns)
+    for col in missing:
+        if col in {
+            "risk_flag_email",
+            "flag_nsfw",
+            "flag_fin",
+            "flag_compliance",
+            "over_limit",
+            "personal_use",
+            "flag_compliance_txn",
+        }:
+            df[col] = False
+        elif col in {"email_sentiment", "chat_sentiment"}:
+            df[col] = 0.0
+        else:
+            df[col] = 0.0 if col == "amt_usd" else ""
+
+    # ------------------- profanity masking -----------------
+    def mask_profanity(text: str) -> str:
+        """Replace a short list of profane words with asterisks."""
+        profanity_words = [
+            "fuck", "shit", "shitty", "cunt", "bitch",
+            "ass", "damn", "crap", "piss", "dick",
+        ]
+        pattern = re.compile(r"\b(" + "|".join(profanity_words) + r")\b", flags=re.I)
+
+        def _replace(m):
+            return "*" * len(m.group())
+
+        return pattern.sub(_replace, text)
+
+    df["email_message_masked"] = df["email_message"].astype(str).apply(mask_profanity)
+    df["message_masked"]       = df["message"].astype(str).apply(mask_profanity)
+
+    # ------------------- sidebar success -------------------
+    st.sidebar.success(f"✅ Loaded {len(df):,} rows")
+    print(f"[INFO] CSV loaded – rows: {len(df):,}, cols: {len(df.columns)}")
+    return df.copy()
+
+
+# ------------------------------------------------------------------
+# Load the data (cached)
+# ------------------------------------------------------------------
+df = load_data()
+
+# ------------------------------------------------------------------
+# 4️⃣  Title & description
+# ------------------------------------------------------------------
+st.title("🔎 Executive Risk Dashboard")
+st.markdown(
+    """
+    A lightweight demo that joins **customer remarks**, **sentiment analysis**, and **synthetic transaction data**, 
+    then highlights high‑value, negative‑sentiment cases.
+    """
 )
 
 # ------------------------------------------------------------------
-# 1️⃣  Load data (cached)
-# ------------------------------------------------------------------
-@st.cache_data
-def load_data():
-    """
-    Load movies & ratings, keep only the “Golden Age” (1930‑1969),
-    filter out Disney/children titles, and return:
-        • a list of transactions (list of movieIds per user)
-        • a dict mapping movieId → title
-    """
-    # ------------------------------------------------------------------
-    # Load raw CSVs (they must sit in the same folder as this script)
-    # ------------------------------------------------------------------
-    movies = pd.read_csv("movies.csv")
-    ratings = pd.read_csv("ratings.csv")
-
-    # ------------------------------------------------------------------
-    # Merge and extract year from the title column
-    # ------------------------------------------------------------------
-    df = pd.merge(movies, ratings, on="movieId", how="outer")
-    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*$$(\d{4})$$")
-    df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
-    df_clean = df.dropna(subset=["userId", "rating", "Year"])
-
-    # ------------------------------------------------------------------
-    # Keep only classic movies (1930‑1969) and drop Disney/children titles
-    # ------------------------------------------------------------------
-    golden_age = df_clean[
-        (df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)
-    ]
-
-    # Keep the 500 most‑watched movies in that period
-    top_movies = (
-        golden_age["movieId"]
-        .value_counts()
-        .nlargest(500)
-        .index
-    )
-    filtered = golden_age[golden_age["movieId"].isin(top_movies)]
-
-    # Remove Disney and obvious children/family movies
-    filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
-    filtered = filtered[
-        ~filtered["genres"].str.contains("Childre|Family", na=False)
-    ]
-
-    # ------------------------------------------------------------------
-    # Build the transaction list expected by the Apriori model
-    # ------------------------------------------------------------------
-    transactions = (
-        filtered.groupby("userId")["movieId"]
-        .apply(list)
-        .tolist()
-    )
-    movie_dict = movies.set_index("movieId")["title"].to_dict()
-
-    return transactions, movie_dict
-
-
-transactions, movie_dict = load_data()
-
-# ------------------------------------------------------------------
-# 2️⃣  Sidebar controls
+# 5️⃣  Sidebar filters
 # ------------------------------------------------------------------
 st.sidebar.header("🔧 Filters")
-min_confidence = st.sidebar.slider(
-    "Minimum confidence for recommendations",
-    min_value=0.5,
-    max_value=1.0,
-    value=0.7,
-    step=0.05,
+
+# Executive selector (multi‑select)
+exec_options = sorted(df["exec_id"].unique())
+selected_execs = st.sidebar.multiselect(
+    "👤 Executive(s)",
+    options=exec_options,
+    default=exec_options[:5],
+    help="Select one or more employee IDs."
 )
-search_movie = st.sidebar.text_input("Search for a movie", "")
 
-# ------------------------------------------------------------------
-# 3️⃣  Load pre‑computed Apriori rules
-# ------------------------------------------------------------------
-with open("rules.pkl", "rb") as f:
-    rules = pickle.load(f)
+# Risk‑flag toggles
+show_risky_email = st.sidebar.checkbox(
+    "🚩 Show only risky e‑mail rows",
+    value=False,
+    help="Filters to rows where `risk_flag_email` is True."
+)
 
-# ------------------------------------------------------------------
-# 4️⃣  Build the recommendation DataFrame
-# ------------------------------------------------------------------
-recommendations = []
-for rule in rules:
-    lhs_titles = [movie_dict[i] for i in rule.lhs]
-    rhs_titles = [movie_dict[i] for i in rule.rhs]
-    recommendations.append(
-        {
-            "If you like": ", ".join(lhs_titles),
-            "You might like": ", ".join(rhs_titles),
-            "Confidence": round(rule.confidence, 2),
-            "Lift": round(rule.lift, 2),
-        }
+show_nsfw_chat = st.sidebar.checkbox(
+    "🔞 Show only NSFW chat rows",
+    value=False,
+    help="Filters to rows where `flag_nsfw` is True."
+)
+
+# Transaction category filter (if column exists)
+if "category" in df.columns:
+    cat_options = sorted(df["category"].dropna().unique())
+    selected_cats = st.sidebar.multiselect(
+        "💳 Transaction category",
+        options=cat_options,
+        default=cat_options,
+        help="Filter synthetic credit‑card transactions by category."
     )
-rec_df = pd.DataFrame(recommendations)
-
-# ------------------------------------------------------------------
-# 5️⃣  Apply search‑term & confidence filters
-# ------------------------------------------------------------------
-if search_movie:
-    rec_df = rec_df[
-        rec_df["If you like"].str.contains(search_movie, case=False, na=False)
-        | rec_df["You might like"].str.contains(search_movie, case=False, na=False)
-    ]
-rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
-
-# ------------------------------------------------------------------
-# 6️⃣  Main title & description
-# ------------------------------------------------------------------
-st.title("🎬 Movie Recommender + Association Rules")
-st.markdown(
-    """
-    A lightweight demo that shows **frequent item‑sets** from classic movies
-    (1930‑1969) and suggests movies that often appear together in user
-    histories.
-    """
-)
-
-st.subheader(
-    f"Recommendations for: {search_movie if search_movie else 'All Movies'}"
-)
-
-# ------------------------------------------------------------------
-# 7️⃣  Centered Ag‑Grid table (styled like the SMB demo)
-# ------------------------------------------------------------------
-st.markdown(
-    """
-    <style>
-    .centered-table {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 30px;
-        margin-bottom: 50px;
-    }
-    .centered-table .ag-theme-material {
-        width: 90%;
-        max-width: 1200px;
-        border: 2px solid #0ABAB5;
-        border-radius: 10px;
-        padding: 10px;
-        background-color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-if rec_df.empty:
-    st.warning("No recommendations found for this selection.")
 else:
-    gb = GridOptionsBuilder.from_dataframe(rec_df)
-    gb.configure_pagination(paginationAutoPageSize=True)
-    gb.configure_side_bar()
-    gb.configure_default_column(editable=False, filter=True, sortable=True)
-    grid_options = gb.build()
+    selected_cats = []
 
-    st.markdown("<div class='centered-table'>", unsafe_allow_html=True)
-    AgGrid(
-        rec_df,
-        gridOptions=grid_options,
-        enable_enterprise_modules=False,
-        theme="material",
-        height=700,
-        fit_columns_on_grid_load=True,
-        allow_unsafe_jscode=True,
+# Over‑limit toggle
+show_over_limit = st.sidebar.checkbox(
+    "⚠️ Show only over‑limit transactions",
+    value=False,
+    help="Filters to rows where `over_limit` is True."
+)
+
+# Personal‑use toggle
+show_personal_use = st.sidebar.checkbox(
+    "🧾 Show only personal‑use transactions",
+    value=False,
+    help="Filters to rows where `personal_use` is True."
+)
+
+# ------------------------------------------------------------------
+# 6️⃣  Apply filters
+# ------------------------------------------------------------------
+filtered = df.copy()
+
+if selected_execs:
+    filtered = filtered[filtered["exec_id"].isin(selected_execs)]
+
+if show_risky_email:
+    filtered = filtered[filtered["risk_flag_email"]]
+
+if show_nsfw_chat:
+    filtered = filtered[filtered["flag_nsfw"]]
+
+if selected_cats:
+    filtered = filtered[filtered["category"].isin(selected_cats)]
+
+if show_over_limit:
+    filtered = filtered[filtered["over_limit"]]
+
+if show_personal_use:
+    filtered = filtered[filtered["personal_use"]]
+
+# ------------------------------------------------------------------
+# 7️⃣  Metrics (overview)
+# ------------------------------------------------------------------
+st.subheader("📊 Overview")
+col_a, col_b, col_c = st.columns(3)
+
+with col_a:
+    st.metric(
+        label="Total Employees",
+        value=f"{df['exec_id'].nunique():,}"
     )
-    st.markdown("</div>", unsafe_allow_html=True)
+with col_b:
+    st.metric(
+        label="Risky e‑mail execs",
+        value=f"{df.get('risk_flag_email', pd.Series([False])).sum():,}"
+    )
+with col_c:
+    st.metric(
+        label="NSFW chats",
+        value=f"{df.get('flag_nsfw', pd.Series([False])).sum():,}"
+    )
+st.markdown("---")
 
 # ------------------------------------------------------------------
-# 8️⃣  Download button for the filtered recommendations
+# 8️⃣  Show the filtered dataframe
 # ------------------------------------------------------------------
-csv_bytes = rec_df.to_csv(index=False).encode()
+st.subheader("🗂️ Filtered data")
+
+display_cols = [
+    "exec_id",
+    "email_message_masked",   # masked version
+    "email_sentiment",
+    "risk_flag_email",
+    "message_masked",         # masked version
+    "flag_nsfw",
+    "flag_fin",
+    "flag_compliance",
+    "chat_sentiment",
+    "ts",
+    "category",
+    "amt_usd",
+    "over_limit",
+    "personal_use",
+    "flag_compliance_txn",
+]
+
+st.dataframe(
+    filtered[display_cols],
+    use_container_width=True,
+    height=500,
+)
+
+# ------------------------------------------------------------------
+# 9️⃣  Download button – export filtered view as CSV
+# ------------------------------------------------------------------
+def convert_df_to_csv(df_: pd.DataFrame) -> bytes:
+    """Return CSV bytes for Streamlit download button."""
+    return df_.to_csv(index=False).encode("utf-8")
+
+csv_bytes = convert_df_to_csv(filtered[display_cols])
+
 st.download_button(
-    label="💾 Download recommendations (CSV)",
+    label="💾 Download filtered view as CSV",
     data=csv_bytes,
-    file_name="movie_recommendations.csv",
+    file_name="filtered_executive_risk.csv",
     mime="text/csv",
+    help="Download the rows currently displayed in the table.",
+)
+
+# ------------------------------------------------------------------
+# 🔚  Footer / disclaimer
+# ------------------------------------------------------------------
+st.caption(
+    "© 2025 Your Company – Internal risk dashboard. "
+    "Data is synthetic except for the Enron e‑mail sample."
 )
