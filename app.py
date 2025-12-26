@@ -1,3 +1,4 @@
+# -------------------------------------------------
 # app.py – Movie Recommender (styled like SMB demo)
 # -------------------------------------------------
 
@@ -177,7 +178,7 @@ transactions, movie_dict = load_data()
 st.sidebar.header("🔧 Filters")
 min_confidence = st.sidebar.slider(
     "Minimum confidence for recommendations",
-@@ -115,15 +147,15 @@ def load_data():
+@@ -115,15 +147,15 @@
 )
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
@@ -198,7 +199,7 @@ with open("rules.pkl", "rb") as f:
 recommendations = []
 for rule in rules:
     lhs_titles = [movie_dict[i] for i in rule.lhs]
-@@ -138,37 +170,35 @@ def load_data():
+@@ -138,37 +170,35 @@
     )
 rec_df = pd.DataFrame(recommendations)
 
@@ -247,7 +248,7 @@ st.subheader(
 st.markdown(
     """
     <style>
-@@ -213,9 +243,9 @@ def load_data():
+@@ -213,13 +243,13 @@
     )
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -260,3 +261,7 @@ st.markdown(
 csv_bytes = rec_df.to_csv(index=False).encode()
 st.download_button(
     label="💾 Download recommendations (CSV)",
+    data=csv_bytes,
+    file_name="movie_recommendations.csv",
+    mime="text/csv",
+)
