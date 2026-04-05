@@ -151,14 +151,25 @@ for rule in rules:
 rec_df = pd.DataFrame(recommendations)
 
 # -------------------------------------------------
-# 5️⃣ Filter by search term & confidence
+# 5️⃣ Dynamic filtering by search term & confidence
 # -------------------------------------------------
-if search_movie:
-    rec_df = rec_df[
-        rec_df["If you like"].str.contains(search_movie, case=False, na=False)
-        | rec_df["You might like"].str.contains(search_movie, case=False, na=False)
-    ]
-rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
+def filter_recommendations(df, search, min_conf):
+    if df.empty:
+        return df
+    # Filter by confidence
+    df_filtered = df[df["Confidence"] >= min_conf]
+
+    if search:
+        search_terms = search.strip().lower().split()
+        mask = df_filtered.apply(
+            lambda row: any(term in row["If you like"].lower() or term in row["You might like"].lower() for term in search_terms),
+            axis=1
+        )
+        df_filtered = df_filtered[mask]
+
+    return df_filtered
+
+rec_df_filtered = filter_recommendations(rec_df, search_movie, min_confidence)
 
 # -------------------------------------------------
 # 6️⃣ Main title & subtitle
@@ -179,22 +190,21 @@ st.subheader(
 )
 
 # -------------------------------------------------
-# 8️⃣ Centered Ag‑Grid table (restored interactive features)
+# 8️⃣ Centered Ag‑Grid table (interactive & dynamic)
 # -------------------------------------------------
-if not rec_df.empty:
-    gb = GridOptionsBuilder.from_dataframe(rec_df)
+if not rec_df_filtered.empty:
+    gb = GridOptionsBuilder.from_dataframe(rec_df_filtered)
     gb.configure_default_column(
-        editable=False,  # users cannot edit
-        sortable=True,   # columns sortable
-        filter=True,     # columns have filter box
-        resizable=True   # columns can be resized
+        editable=False,   # users cannot edit
+        sortable=True,    # columns sortable
+        filter=True,      # columns filterable
+        resizable=True    # columns resizable
     )
-    gb.configure_grid_options(domLayout='normal')  # proper layout
+    gb.configure_grid_options(domLayout='normal')
     grid_options = gb.build()
 
-    # Display interactive table
     AgGrid(
-        rec_df,
+        rec_df_filtered,
         gridOptions=grid_options,
         enable_enterprise_modules=False,
         height=400,
