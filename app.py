@@ -17,8 +17,8 @@ CUSTOM_CSS = """
 <style>
 /* Whole‑page background */
 body {
-    background-color: #0ABAB5;   /* Tiffany‑blue */
-    color: #ffffff;             /* light text for contrast */
+    background-color: #0ABAB5;
+    color: #ffffff;
 }
 
 /* Streamlit containers (cards, sidebars, etc.) */
@@ -28,9 +28,9 @@ div[data-testid="stBlockContainer"] {
     border-radius: 8px;
 }
 
-/* Headings – a slightly darker shade for readability */
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
-    color: #006D71;   /* darker teal */
+    color: #006D71;
 }
 
 /* Links */
@@ -50,8 +50,7 @@ if logo_path.is_file():
     st.sidebar.image(str(logo_path), width=120)
 else:
     st.sidebar.warning(
-        "⚠️ `logo.png` not found – please add it next to `app.py` "
-        "(or update `logo_path` accordingly)."
+        "⚠️ `logo.png` not found – please add it next to `app.py`."
     )
 
 # -------------------------------------------------
@@ -64,15 +63,10 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# 1️⃣ Load data (cached) – fixed and robust
+# 1️⃣ Load data (cached)
 # -------------------------------------------------
 @st.cache_data
 def load_data():
-    """
-    Read CSVs, clean, filter, and return:
-    - transactions: list of movieId lists per user
-    - movie_dict: dict mapping movieId → title
-    """
     try:
         movies = pd.read_csv("movies.csv")
         ratings = pd.read_csv("ratings.csv")
@@ -83,37 +77,29 @@ def load_data():
     # Merge ratings with movie titles
     df = pd.merge(movies, ratings, on="movieId", how="inner")
 
-    # Extract year from title (e.g., "Movie Name (1995)")
+    # Extract year from title
     df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*\((\d{4})\)")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 
-    # Drop rows with missing critical info
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
 
-    # Filter Golden Age (1930–1969)
+    # Golden Age filter
     golden_age = df_clean[(df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)]
 
-    # Keep top 500 most-watched movies
+    # Keep top 500 most-watched
     top_movies = golden_age["movieId"].value_counts().nlargest(500).index
     filtered = golden_age[golden_age["movieId"].isin(top_movies)]
 
-    # Remove Disney / children/family movies
+    # Remove Disney / children/family
     filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
     filtered = filtered[~filtered["genres"].str.contains("Child|Family", na=False)]
 
-    # Build transactions: list of movieId lists per user
     transactions = filtered.groupby("userId")["movieId"].apply(list).tolist()
-
-    # Build movie dictionary for lookup
     movie_dict = movies.set_index("movieId")["title"].to_dict()
 
-    # Debug output to ensure data exists
-    st.write("Sample filtered data:", filtered.head())
-    st.write("Number of transactions:", len(transactions))
+    return transactions, movie_dict, set(filtered["movieId"])
 
-    return transactions, movie_dict
-
-transactions, movie_dict = load_data()
+transactions, movie_dict, filtered_movie_ids = load_data()
 
 # -------------------------------------------------
 # 2️⃣ Sidebar inputs
@@ -129,40 +115,43 @@ min_confidence = st.sidebar.slider(
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
 # -------------------------------------------------
-# 3️⃣ Load pre‑computed Apriori rules
+# 3️⃣ Load pre-computed Apriori rules
 # -------------------------------------------------
 with open("rules.pkl", "rb") as f:
     rules = pickle.load(f)
 
 # -------------------------------------------------
-# 4️⃣ Build recommendation table
+# 4️⃣ Build recommendation table (filtered rules)
 # -------------------------------------------------
 recommendations = []
 for rule in rules:
-    lhs_titles = [movie_dict[i] for i in rule.lhs]
-    rhs_titles = [movie_dict[i] for i in rule.rhs]
-    recommendations.append(
-        {
-            "If you like": ", ".join(lhs_titles),
-            "You might like": ", ".join(rhs_titles),
-            "Confidence": rule.confidence,
-        }
-    )
+    if all(i in filtered_movie_ids for i in rule.lhs + rule.rhs):
+        lhs_titles = [movie_dict[i] for i in rule.lhs]
+        rhs_titles = [movie_dict[i] for i in rule.rhs]
+        recommendations.append(
+            {
+                "If you like": ", ".join(lhs_titles),
+                "You might like": ", ".join(rhs_titles),
+                "Confidence": rule.confidence,
+            }
+        )
 rec_df = pd.DataFrame(recommendations)
 
 # -------------------------------------------------
-# 5️⃣ Dynamic filtering by search term & confidence
+# 5️⃣ Dynamic filtering function
 # -------------------------------------------------
 def filter_recommendations(df, search, min_conf):
     if df.empty:
         return df
-    # Filter by confidence
     df_filtered = df[df["Confidence"] >= min_conf]
 
     if search:
         search_terms = search.strip().lower().split()
         mask = df_filtered.apply(
-            lambda row: any(term in row["If you like"].lower() or term in row["You might like"].lower() for term in search_terms),
+            lambda row: any(
+                term in row["If you like"].lower() or term in row["You might like"].lower()
+                for term in search_terms
+            ),
             axis=1
         )
         df_filtered = df_filtered[mask]
@@ -177,8 +166,8 @@ rec_df_filtered = filter_recommendations(rec_df, search_movie, min_confidence)
 st.title("🎬 Movie Recommender + Association Rules")
 st.markdown(
     """
-    A lightweight demo that shows **frequent item‑sets** from classic movies
-    (1930‑1969) and suggests movies that often appear together in user histories.
+    Shows frequent item‑sets from classic movies (1930‑1969)
+    and suggests movies that appear together in user histories.
     """
 )
 
@@ -195,10 +184,10 @@ st.subheader(
 if not rec_df_filtered.empty:
     gb = GridOptionsBuilder.from_dataframe(rec_df_filtered)
     gb.configure_default_column(
-        editable=False,   # users cannot edit
-        sortable=True,    # columns sortable
-        filter=True,      # columns filterable
-        resizable=True    # columns resizable
+        editable=False,
+        sortable=True,
+        filter=True,
+        resizable=True
     )
     gb.configure_grid_options(domLayout='normal')
     grid_options = gb.build()
