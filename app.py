@@ -60,68 +60,58 @@ else:
 st.set_page_config(
     page_title="Movie Recommender",
     page_icon="🎬",
-    layout="wide",          # only one layout argument
+    layout="wide",
 )
 
 # -------------------------------------------------
-# 1️⃣ Load data (cached)
+# 1️⃣ Load data (cached) – fixed and robust
 # -------------------------------------------------
 @st.cache_data
 def load_data():
     """
-    Read the CSV files, merge, clean and return:
-    - a list of transactions (list of movieIds per user)
-    - a dict mapping movieId → title
+    Read CSVs, clean, filter, and return:
+    - transactions: list of movieId lists per user
+    - movie_dict: dict mapping movieId → title
     """
-    # ------------------------------------------------------------------
-    # Load raw CSVs (they must sit in the same folder as this script)
-    # ------------------------------------------------------------------
-    movies = pd.read_csv("movies.csv")
-    ratings = pd.read_csv("ratings.csv")
+    try:
+        movies = pd.read_csv("movies.csv")
+        ratings = pd.read_csv("ratings.csv")
+    except FileNotFoundError as e:
+        st.error(f"Data file missing: {e}")
+        return [], {}
 
-    # ------------------------------------------------------------------
-    # Merge and extract year from the title column
-    # ------------------------------------------------------------------
-    df = pd.merge(movies, ratings, on="movieId", how="outer")
-    # Expected title format: "Movie Name (1995)"
-    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*$$(\d{4})$$")
+    # Merge ratings with movie titles
+    df = pd.merge(movies, ratings, on="movieId", how="inner")
+
+    # Extract year from title (e.g., "Movie Name (1995)")
+    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*\((\d{4})\)")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+
+    # Drop rows with missing critical info
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
 
-    # ------------------------------------------------------------------
-    # Keep only the “Golden Age” (1930‑1969) and filter out Disney/children titles
-    # ------------------------------------------------------------------
-    golden_age = df_clean[
-        (df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)
-    ]
+    # Filter Golden Age (1930–1969)
+    golden_age = df_clean[(df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)]
 
-    # Keep the 500 most‑watched movies in that period
-    top_movies = (
-        golden_age["movieId"]
-        .value_counts()
-        .nlargest(500)
-        .index
-    )
+    # Keep top 500 most-watched movies
+    top_movies = golden_age["movieId"].value_counts().nlargest(500).index
     filtered = golden_age[golden_age["movieId"].isin(top_movies)]
 
-    # Remove Disney and obvious children/family movies
+    # Remove Disney / children/family movies
     filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
-    filtered = filtered[
-        ~filtered["genres"].str.contains("Child|Family", na=False)
-    ]
+    filtered = filtered[~filtered["genres"].str.contains("Child|Family", na=False)]
 
-    # ------------------------------------------------------------------
-    # Build the list‑of‑transactions format expected by the Apriori model
-    # ------------------------------------------------------------------
-    transactions = (
-        filtered.groupby("userId")["movieId"]
-        .apply(list)
-        .tolist()
-    )
+    # Build transactions: list of movieId lists per user
+    transactions = filtered.groupby("userId")["movieId"].apply(list).tolist()
+
+    # Build movie dictionary for lookup
     movie_dict = movies.set_index("movieId")["title"].to_dict()
 
-    return transactions, movie_dict
+    # Debug output to ensure data exists
+    st.write("Sample filtered data:", filtered.head())
+    st.write("Number of transactions:", len(transactions))
 
+    return transactions, movie_dict
 
 transactions, movie_dict = load_data()
 
