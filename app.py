@@ -179,12 +179,27 @@ st.subheader(
 )
 
 # -------------------------------------------------
-# 8️⃣ Centered Ag‑Grid table (styled like SMB demo)
+# 8️⃣ Centered Ag‑Grid table (restored interactive features)
 # -------------------------------------------------
 if not rec_df.empty:
     gb = GridOptionsBuilder.from_dataframe(rec_df)
-    gb.configure_default_column(editable=False, sortable=True, filter=True)
+    gb.configure_default_column(
+        editable=False,  # users cannot edit
+        sortable=True,   # columns sortable
+        filter=True,     # columns have filter box
+        resizable=True   # columns can be resized
+    )
+    gb.configure_grid_options(domLayout='normal')  # proper layout
     grid_options = gb.build()
-    AgGrid(rec_df, gridOptions=grid_options, fit_columns_on_grid_load=True)
+
+    # Display interactive table
+    AgGrid(
+        rec_df,
+        gridOptions=grid_options,
+        enable_enterprise_modules=False,
+        height=400,
+        fit_columns_on_grid_load=True,
+        allow_unsafe_jscode=True
+    )
 else:
     st.info("No recommendations match the current filters.")
