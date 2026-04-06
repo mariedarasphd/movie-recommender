@@ -1,4 +1,4 @@
-# app.py – Movie Recommender (styled like SMB demo)
+# app.py – Movie Recommender (efficient-apriori version)
 
 # -------------------------------------------------
 # Imports
@@ -15,25 +15,18 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 # -------------------------------------------------
 CUSTOM_CSS = """
 <style>
-/* Whole‑page background */
 body {
-    background-color: #0ABAB5;   /* Tiffany‑blue */
-    color: #ffffff;             /* light text for contrast */
+    background-color: #0ABAB5;
+    color: #ffffff;
 }
-
-/* Streamlit containers (cards, sidebars, etc.) */
 section[data-testid="stSidebar"],
 div[data-testid="stBlockContainer"] {
     background-color: #0ABAB5;
     border-radius: 8px;
 }
-
-/* Headings – a slightly darker shade for readability */
 h1, h2, h3, h4, h5, h6 {
-    color: #006D71;   /* darker teal */
+    color: #006D71;
 }
-
-/* Links */
 a {
     color: #ffffff;
     text-decoration: underline;
@@ -49,10 +42,7 @@ logo_path = pathlib.Path(__file__).parent / "logo.png"
 if logo_path.is_file():
     st.sidebar.image(str(logo_path), width=120)
 else:
-    st.sidebar.warning(
-        "⚠️ `logo.png` not found – please add it next to `app.py` "
-        "(or update `logo_path` accordingly)."
-    )
+    st.sidebar.warning("⚠️ `logo.png` not found – please add it next to `app.py`.")
 
 # -------------------------------------------------
 # Page configuration
@@ -60,70 +50,19 @@ else:
 st.set_page_config(
     page_title="Movie Recommender",
     page_icon="🎬",
-    layout="wide",          # only one layout argument
+    layout="wide",
 )
 
 # -------------------------------------------------
-# 1️⃣ Load data (cached)
+# 1️⃣ Load movie data
 # -------------------------------------------------
 @st.cache_data
-def load_data():
-    """
-    Read the CSV files, merge, clean and return:
-    - a list of transactions (list of movieIds per user)
-    - a dict mapping movieId → title
-    """
-    # ------------------------------------------------------------------
-    # Load raw CSVs (they must sit in the same folder as this script)
-    # ------------------------------------------------------------------
+def load_movies():
     movies = pd.read_csv("movies.csv")
-    ratings = pd.read_csv("ratings.csv")
-
-    # ------------------------------------------------------------------
-    # Merge and extract year from the title column
-    # ------------------------------------------------------------------
-    df = pd.merge(movies, ratings, on="movieId", how="outer")
-    # Expected title format: "Movie Name (1995)"
-    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*$$(\d{4})$$")
-    df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
-    df_clean = df.dropna(subset=["userId", "rating", "Year"])
-
-    # ------------------------------------------------------------------
-    # Keep only the “Golden Age” (1930‑1969) and filter out Disney/children titles
-    # ------------------------------------------------------------------
-    golden_age = df_clean[
-        (df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)
-    ]
-
-    # Keep the 500 most‑watched movies in that period
-    top_movies = (
-        golden_age["movieId"]
-        .value_counts()
-        .nlargest(500)
-        .index
-    )
-    filtered = golden_age[golden_age["movieId"].isin(top_movies)]
-
-    # Remove Disney and obvious children/family movies
-    filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
-    filtered = filtered[
-        ~filtered["genres"].str.contains("Child|Family", na=False)
-    ]
-
-    # ------------------------------------------------------------------
-    # Build the list‑of‑transactions format expected by the Apriori model
-    # ------------------------------------------------------------------
-    transactions = (
-        filtered.groupby("userId")["movieId"]
-        .apply(list)
-        .tolist()
-    )
     movie_dict = movies.set_index("movieId")["title"].to_dict()
+    return movie_dict
 
-    return transactions, movie_dict
-
-
-transactions, movie_dict = load_data()
+movie_dict = load_movies()
 
 # -------------------------------------------------
 # 2️⃣ Sidebar inputs
@@ -139,7 +78,7 @@ min_confidence = st.sidebar.slider(
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
 # -------------------------------------------------
-# 3️⃣ Load pre‑computed Apriori rules
+# 3️⃣ Load pre-computed Apriori rules (efficient-apriori)
 # -------------------------------------------------
 with open("rules.pkl", "rb") as f:
     rules = pickle.load(f)
@@ -149,15 +88,17 @@ with open("rules.pkl", "rb") as f:
 # -------------------------------------------------
 recommendations = []
 for rule in rules:
-    lhs_titles = [movie_dict[i] for i in rule.lhs]
-    rhs_titles = [movie_dict[i] for i in rule.rhs]
-    recommendations.append(
-        {
-            "If you like": ", ".join(lhs_titles),
-            "You might like": ", ".join(rhs_titles),
-            "Confidence": rule.confidence,
-        }
-    )
+    # Map movie IDs to titles
+    lhs_titles = [movie_dict.get(i, f"Unknown ({i})") for i in rule.lhs]
+    rhs_titles = [movie_dict.get(i, f"Unknown ({i})") for i in rule.rhs]
+
+    recommendations.append({
+        "If you like": ", ".join(lhs_titles),
+        "You might like": ", ".join(rhs_titles),
+        "Confidence": rule.confidence,
+        "Lift": getattr(rule, "lift", None)  # lift may exist if computed
+    })
+
 rec_df = pd.DataFrame(recommendations)
 
 # -------------------------------------------------
@@ -165,31 +106,29 @@ rec_df = pd.DataFrame(recommendations)
 # -------------------------------------------------
 if search_movie:
     rec_df = rec_df[
-        rec_df["If you like"].str.contains(search_movie, case=False, na=False)
-        | rec_df["You might like"].str.contains(search_movie, case=False, na=False)
+        rec_df["If you like"].str.contains(search_movie, case=False, na=False) |
+        rec_df["You might like"].str.contains(search_movie, case=False, na=False)
     ]
 rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
 
 # -------------------------------------------------
 # 6️⃣ Main title & subtitle
 # -------------------------------------------------
-st.title("🎬 Movie Recommender + Association Rules")
+st.title("🎬 Movie Recommender + Association Rules")
 st.markdown(
     """
-    A lightweight demo that shows **frequent item‑sets** from classic movies
-    (1930‑1969) and suggests movies that often appear together in user histories.
+    Recommendations based on frequent movie pairings from user history.
+    Using efficient-apriori rules directly.
     """
 )
 
 # -------------------------------------------------
 # 7️⃣ Show filtered recommendations
 # -------------------------------------------------
-st.subheader(
-    f"Recommendations for: {search_movie if search_movie else 'All Movies'}"
-)
+st.subheader(f"Recommendations for: {search_movie if search_movie else 'All Movies'}")
 
 # -------------------------------------------------
-# 8️⃣ Centered Ag‑Grid table (styled like SMB demo)
+# 8️⃣ Centered Ag-Grid table
 # -------------------------------------------------
 if not rec_df.empty:
     gb = GridOptionsBuilder.from_dataframe(rec_df)
