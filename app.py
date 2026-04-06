@@ -17,8 +17,8 @@ CUSTOM_CSS = """
 <style>
 /* Whole‑page background */
 body {
-    background-color: #0ABAB5;   /* Tiffany‑blue */
-    color: #ffffff;             /* light text for contrast */
+    background-color: #0ABAB5;
+    color: #ffffff;
 }
 
 /* Streamlit containers (cards, sidebars, etc.) */
@@ -30,7 +30,7 @@ div[data-testid="stBlockContainer"] {
 
 /* Headings – a slightly darker shade for readability */
 h1, h2, h3, h4, h5, h6 {
-    color: #006D71;   /* darker teal */
+    color: #006D71;
 }
 
 /* Links */
@@ -60,7 +60,7 @@ else:
 st.set_page_config(
     page_title="Movie Recommender",
     page_icon="🎬",
-    layout="wide",          # only one layout argument
+    layout="wide",
 )
 
 # -------------------------------------------------
@@ -68,62 +68,34 @@ st.set_page_config(
 # -------------------------------------------------
 @st.cache_data
 def load_data():
-    """
-    Read the CSV files, merge, clean and return:
-    - a list of transactions (list of movieIds per user)
-    - a dict mapping movieId → title
-    """
-    # ------------------------------------------------------------------
-    # Load raw CSVs (they must sit in the same folder as this script)
-    # ------------------------------------------------------------------
     movies = pd.read_csv("movies.csv")
     ratings = pd.read_csv("ratings.csv")
 
-    # ------------------------------------------------------------------
     # Merge and extract year from the title column
-    # ------------------------------------------------------------------
     df = pd.merge(movies, ratings, on="movieId", how="outer")
-    # Expected title format: "Movie Name (1995)"
-    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*$$(\d{4})$$")
+    # Correct regex for extracting year
+    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*\((\d{4})\)")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
 
-    # ------------------------------------------------------------------
-    # Keep only the “Golden Age” (1930‑1969) and filter out Disney/children titles
-    # ------------------------------------------------------------------
-    golden_age = df_clean[
-        (df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)
-    ]
+    # Golden Age filter
+    golden_age = df_clean[(df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)]
 
-    # Keep the 500 most‑watched movies in that period
-    top_movies = (
-        golden_age["movieId"]
-        .value_counts()
-        .nlargest(500)
-        .index
-    )
+    # Top 500 most-watched
+    top_movies = golden_age["movieId"].value_counts().nlargest(500).index
     filtered = golden_age[golden_age["movieId"].isin(top_movies)]
 
-    # Remove Disney and obvious children/family movies
+    # Remove Disney / children/family
     filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
-    filtered = filtered[
-        ~filtered["genres"].str.contains("Child|Family", na=False)
-    ]
+    filtered = filtered[~filtered["genres"].str.contains("Child|Family", na=False)]
 
-    # ------------------------------------------------------------------
-    # Build the list‑of‑transactions format expected by the Apriori model
-    # ------------------------------------------------------------------
-    transactions = (
-        filtered.groupby("userId")["movieId"]
-        .apply(list)
-        .tolist()
-    )
+    transactions = filtered.groupby("userId")["movieId"].apply(list).tolist()
     movie_dict = movies.set_index("movieId")["title"].to_dict()
+    filtered_movie_ids = set(filtered["movieId"])
 
-    return transactions, movie_dict
+    return transactions, movie_dict, filtered_movie_ids
 
-
-transactions, movie_dict = load_data()
+transactions, movie_dict, filtered_movie_ids = load_data()
 
 # -------------------------------------------------
 # 2️⃣ Sidebar inputs
@@ -145,30 +117,40 @@ with open("rules.pkl", "rb") as f:
     rules = pickle.load(f)
 
 # -------------------------------------------------
-# 4️⃣ Build recommendation table
+# 4️⃣ Build recommendation table (filtered correctly)
 # -------------------------------------------------
 recommendations = []
 for rule in rules:
-    lhs_titles = [movie_dict[i] for i in rule.lhs]
-    rhs_titles = [movie_dict[i] for i in rule.rhs]
-    recommendations.append(
-        {
-            "If you like": ", ".join(lhs_titles),
-            "You might like": ", ".join(rhs_titles),
+    lhs_in = [movie_dict[i] for i in rule.lhs if i in filtered_movie_ids]
+    rhs_in = [movie_dict[i] for i in rule.rhs if i in filtered_movie_ids]
+    if lhs_in and rhs_in:  # include rule if at least one movie on each side exists
+        recommendations.append({
+            "If you like": ", ".join(lhs_in),
+            "You might like": ", ".join(rhs_in),
             "Confidence": rule.confidence,
-        }
-    )
+        })
 rec_df = pd.DataFrame(recommendations)
 
 # -------------------------------------------------
 # 5️⃣ Filter by search term & confidence
 # -------------------------------------------------
-if search_movie:
-    rec_df = rec_df[
-        rec_df["If you like"].str.contains(search_movie, case=False, na=False)
-        | rec_df["You might like"].str.contains(search_movie, case=False, na=False)
-    ]
-rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
+def filter_recommendations(df, search, min_conf):
+    if df.empty:
+        return df
+    df_filtered = df[df["Confidence"] >= min_conf]
+    if search:
+        search_terms = search.strip().lower().split()
+        mask = df_filtered.apply(
+            lambda row: any(
+                term in row["If you like"].lower() or term in row["You might like"].lower()
+                for term in search_terms
+            ),
+            axis=1
+        )
+        df_filtered = df_filtered[mask]
+    return df_filtered
+
+rec_df_filtered = filter_recommendations(rec_df, search_movie, min_confidence)
 
 # -------------------------------------------------
 # 6️⃣ Main title & subtitle
@@ -180,21 +162,25 @@ st.markdown(
     (1930‑1969) and suggests movies that often appear together in user histories.
     """
 )
-
-# -------------------------------------------------
-# 7️⃣ Show filtered recommendations
-# -------------------------------------------------
 st.subheader(
     f"Recommendations for: {search_movie if search_movie else 'All Movies'}"
 )
 
 # -------------------------------------------------
-# 8️⃣ Centered Ag‑Grid table (styled like SMB demo)
+# 7️⃣ Centered Ag‑Grid table (interactive)
 # -------------------------------------------------
-if not rec_df.empty:
-    gb = GridOptionsBuilder.from_dataframe(rec_df)
-    gb.configure_default_column(editable=False, sortable=True, filter=True)
+if not rec_df_filtered.empty:
+    gb = GridOptionsBuilder.from_dataframe(rec_df_filtered)
+    gb.configure_default_column(editable=False, sortable=True, filter=True, resizable=True)
+    gb.configure_grid_options(domLayout='normal')
     grid_options = gb.build()
-    AgGrid(rec_df, gridOptions=grid_options, fit_columns_on_grid_load=True)
+    AgGrid(
+        rec_df_filtered,
+        gridOptions=grid_options,
+        enable_enterprise_modules=False,
+        height=400,
+        fit_columns_on_grid_load=True,
+        allow_unsafe_jscode=True
+    )
 else:
     st.info("No recommendations match the current filters.")
