@@ -1,11 +1,10 @@
-# app.py – Movie Recommender (Apriori-safe, frozenset-ready)
+# app.py – Movie Recommender (dict/count-safe)
 
 import pathlib
 import pickle
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
-import traceback
 
 # -------------------------------------------------
 # Custom CSS – Tiffany-blue theme
@@ -46,20 +45,14 @@ def load_data():
 
     df = pd.merge(movies, ratings, on="movieId", how="outer")
 
-    # Extract year
     df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*\((\d{4})\)")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
-
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
 
-    # Golden Age filter
     golden_age = df_clean[(df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)]
-
-    # Top 500
     top_movies = golden_age["movieId"].value_counts().nlargest(500).index
     filtered = golden_age[golden_age["movieId"].isin(top_movies)]
 
-    # Remove Disney / children
     filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
     filtered = filtered[~filtered["genres"].str.contains("Child|Family", na=False)]
 
@@ -88,21 +81,19 @@ except Exception as e:
     rules = []
 
 # -------------------------------------------------
-# Build recommendations – Apriori / Rule-safe
+# Build recommendations – dict + counts
 # -------------------------------------------------
 recommendations = []
 
 for rule in rules:
     try:
-        # Dict-safe
-        if isinstance(rule, dict):
-            lhs = list(rule.get("lhs", []))
-            rhs = list(rule.get("rhs", []))
-            confidence = rule.get("confidence", 0)
-        else:  # Rule object (frozensets)
-            lhs = list(rule.lhs)
-            rhs = list(rule.rhs)
-            confidence = getattr(rule, "confidence", getattr(rule, "conf", 0))
+        lhs = rule.get("lhs", [])
+        rhs = rule.get("rhs", [])
+
+        # Compute confidence from counts
+        count_full = rule.get("count_full", 0)
+        count_lhs = rule.get("count_lhs", 1)  # avoid div by zero
+        confidence = count_full / count_lhs
 
         lhs_titles = [movie_dict[i] for i in lhs if i in movie_dict]
         rhs_titles = [movie_dict[i] for i in rhs if i in movie_dict]
@@ -115,8 +106,7 @@ for rule in rules:
             })
 
     except Exception as e:
-        st.error(f"Rule processing error: {e}")
-        st.text(traceback.format_exc())
+        st.warning(f"Rule processing error: {e}")
 
 rec_df = pd.DataFrame(recommendations)
 
