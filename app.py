@@ -1,127 +1,200 @@
+# app.py – Movie Recommender (styled like SMB demo)
+
+# -------------------------------------------------
+# Imports
+# -------------------------------------------------
 import pathlib
 import pickle
+
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 
-# ---------------- Custom CSS ----------------
+# -------------------------------------------------
+# Custom CSS – Tiffany‑blue theme
+# -------------------------------------------------
 CUSTOM_CSS = """
 <style>
-body {background-color: #0ABAB5; color: #ffffff;}
-section[data-testid="stSidebar"], div[data-testid="stBlockContainer"] {
-    background-color: #0ABAB5; border-radius: 8px;
+/* Whole‑page background */
+body {
+    background-color: #0ABAB5;   /* Tiffany‑blue */
+    color: #ffffff;             /* light text for contrast */
 }
-h1,h2,h3,h4,h5,h6 {color:#006D71;}
-a {color:#ffffff; text-decoration:underline;}
+
+/* Streamlit containers (cards, sidebars, etc.) */
+section[data-testid="stSidebar"],
+div[data-testid="stBlockContainer"] {
+    background-color: #0ABAB5;
+    border-radius: 8px;
+}
+
+/* Headings – a slightly darker shade for readability */
+h1, h2, h3, h4, h5, h6 {
+    color: #006D71;   /* darker teal */
+}
+
+/* Links */
+a {
+    color: #ffffff;
+    text-decoration: underline;
+}
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-# ---------------- Logo ----------------
+# -------------------------------------------------
+# Logo handling
+# -------------------------------------------------
 logo_path = pathlib.Path(__file__).parent / "logo.png"
 if logo_path.is_file():
     st.sidebar.image(str(logo_path), width=120)
 else:
-    st.sidebar.warning("⚠️ `logo.png` not found – add it next to `app.py`.")
+    st.sidebar.warning(
+        "⚠️ `logo.png` not found – please add it next to `app.py` "
+        "(or update `logo_path` accordingly)."
+    )
 
-# ---------------- Page config ----------------
-st.set_page_config(page_title="Movie Recommender", page_icon="🎬", layout="wide")
+# -------------------------------------------------
+# Page configuration
+# -------------------------------------------------
+st.set_page_config(
+    page_title="Movie Recommender",
+    page_icon="🎬",
+    layout="wide",          # only one layout argument
+)
 
-# ---------------- Load data ----------------
+# -------------------------------------------------
+# 1️⃣ Load data (cached)
+# -------------------------------------------------
 @st.cache_data
 def load_data():
+    """
+    Read the CSV files, merge, clean and return:
+    - a list of transactions (list of movieIds per user)
+    - a dict mapping movieId → title
+    """
+    # ------------------------------------------------------------------
+    # Load raw CSVs (they must sit in the same folder as this script)
+    # ------------------------------------------------------------------
     movies = pd.read_csv("movies.csv")
     ratings = pd.read_csv("ratings.csv")
+
+    # ------------------------------------------------------------------
+    # Merge and extract year from the title column
+    # ------------------------------------------------------------------
     df = pd.merge(movies, ratings, on="movieId", how="outer")
-    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*\((\d{4})\)")
+    # Expected title format: "Movie Name (1995)"
+    df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*$$(\d{4})$$")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
-    golden_age = df_clean[(df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)]
-    top_movies = golden_age["movieId"].value_counts().nlargest(500).index
+
+    # ------------------------------------------------------------------
+    # Keep only the “Golden Age” (1930‑1969) and filter out Disney/children titles
+    # ------------------------------------------------------------------
+    golden_age = df_clean[
+        (df_clean["Year"] >= 1930) & (df_clean["Year"] <= 1969)
+    ]
+
+    # Keep the 500 most‑watched movies in that period
+    top_movies = (
+        golden_age["movieId"]
+        .value_counts()
+        .nlargest(500)
+        .index
+    )
     filtered = golden_age[golden_age["movieId"].isin(top_movies)]
+
+    # Remove Disney and obvious children/family movies
     filtered = filtered[~filtered["Movie"].str.contains("Disney", na=False)]
-    filtered = filtered[~filtered["genres"].str.contains("Child|Family", na=False)]
-    transactions = filtered.groupby("userId")["movieId"].apply(list).tolist()
+    filtered = filtered[
+        ~filtered["genres"].str.contains("Child|Family", na=False)
+    ]
+
+    # ------------------------------------------------------------------
+    # Build the list‑of‑transactions format expected by the Apriori model
+    # ------------------------------------------------------------------
+    transactions = (
+        filtered.groupby("userId")["movieId"]
+        .apply(list)
+        .tolist()
+    )
     movie_dict = movies.set_index("movieId")["title"].to_dict()
+
     return transactions, movie_dict
+
 
 transactions, movie_dict = load_data()
 
-# ---------------- Sidebar ----------------
+# -------------------------------------------------
+# 2️⃣ Sidebar inputs
+# -------------------------------------------------
 st.sidebar.header("🔧 Filters")
-min_confidence = st.sidebar.slider("Minimum confidence", 0.0, 1.0, 0.5, 0.01)
+min_confidence = st.sidebar.slider(
+    "Minimum confidence for recommendations",
+    min_value=0.0,
+    max_value=1.0,
+    value=0.5,
+    step=0.01,
+)
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
-# ---------------- Load rules ----------------
-try:
-    with open("rules.pkl", "rb") as f:
-        rules = pickle.load(f)
-except Exception as e:
-    st.error(f"Failed to load rules.pkl: {e}")
-    rules = []
+# -------------------------------------------------
+# 3️⃣ Load pre‑computed Apriori rules
+# -------------------------------------------------
+with open("rules.pkl", "rb") as f:
+    rules = pickle.load(f)
 
-# ---------------- Build recommendations ----------------
+# -------------------------------------------------
+# 4️⃣ Build recommendation table
+# -------------------------------------------------
 recommendations = []
-
 for rule in rules:
-    try:
-        # Detect if Rule object or dict
-        if hasattr(rule, 'lhs') and hasattr(rule, 'rhs'):
-            lhs_ids = list(rule.lhs)
-            rhs_ids = list(rule.rhs)
-            confidence = getattr(rule, "confidence", 0)
-        elif isinstance(rule, dict):
-            lhs_ids = rule.get("lhs", [])
-            rhs_ids = rule.get("rhs", [])
-            confidence = rule.get("confidence", rule.get("count_full", 0)/rule.get("count_lhs",1))
-        else:
-            continue
-
-        lhs_titles = [movie_dict[i] for i in lhs_ids if i in movie_dict]
-        rhs_titles = [movie_dict[i] for i in rhs_ids if i in movie_dict]
-
-        if lhs_titles and rhs_titles:
-            recommendations.append({
-                "If you like": ", ".join(lhs_titles),
-                "You might like": ", ".join(rhs_titles),
-                "Confidence": confidence,
-            })
-
-    except Exception as e:
-        st.warning(f"Rule processing error: {e}")
-
+    lhs_titles = [movie_dict[i] for i in rule.lhs]
+    rhs_titles = [movie_dict[i] for i in rule.rhs]
+    recommendations.append(
+        {
+            "If you like": ", ".join(lhs_titles),
+            "You might like": ", ".join(rhs_titles),
+            "Confidence": rule.confidence,
+        }
+    )
 rec_df = pd.DataFrame(recommendations)
 
-# ---------------- Filtering ----------------
-def filter_recommendations(df, search, min_conf):
-    if df.empty:
-        return df
-    df_filtered = df[df["Confidence"] >= min_conf]
-    if search:
-        search = search.lower()
-        df_filtered = df_filtered[
-            df_filtered["If you like"].str.lower().str.contains(search)
-            | df_filtered["You might like"].str.lower().str.contains(search)
-        ]
-    return df_filtered
+# -------------------------------------------------
+# 5️⃣ Filter by search term & confidence
+# -------------------------------------------------
+if search_movie:
+    rec_df = rec_df[
+        rec_df["If you like"].str.contains(search_movie, case=False, na=False)
+        | rec_df["You might like"].str.contains(search_movie, case=False, na=False)
+    ]
+rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
 
-rec_df_filtered = filter_recommendations(rec_df, search_movie, min_confidence)
+# -------------------------------------------------
+# 6️⃣ Main title & subtitle
+# -------------------------------------------------
+st.title("🎬 Movie Recommender + Association Rules")
+st.markdown(
+    """
+    A lightweight demo that shows **frequent item‑sets** from classic movies
+    (1930‑1969) and suggests movies that often appear together in user histories.
+    """
+)
 
-# ---------------- UI ----------------
-st.title("🎬 Movie Recommender + Association Rules")
-st.markdown("Classic films (1930–1969) with association-based recommendations.")
-st.subheader(f"Recommendations for: {search_movie if search_movie else 'All Movies'}")
+# -------------------------------------------------
+# 7️⃣ Show filtered recommendations
+# -------------------------------------------------
+st.subheader(
+    f"Recommendations for: {search_movie if search_movie else 'All Movies'}"
+)
 
-# ---------------- Table ----------------
-if not rec_df_filtered.empty:
-    gb = GridOptionsBuilder.from_dataframe(rec_df_filtered)
-    gb.configure_default_column(editable=False, sortable=True, filter=True, resizable=True)
+# -------------------------------------------------
+# 8️⃣ Centered Ag‑Grid table (styled like SMB demo)
+# -------------------------------------------------
+if not rec_df.empty:
+    gb = GridOptionsBuilder.from_dataframe(rec_df)
+    gb.configure_default_column(editable=False, sortable=True, filter=True)
     grid_options = gb.build()
-    AgGrid(
-        rec_df_filtered,
-        gridOptions=grid_options,
-        height=400,
-        fit_columns_on_grid_load=True
-    )
+    AgGrid(rec_df, gridOptions=grid_options, fit_columns_on_grid_load=True)
 else:
     st.info("No recommendations match the current filters.")
