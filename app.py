@@ -3,8 +3,6 @@ import pickle
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
-from mlxtend.frequent_patterns import apriori, association_rules
-from mlxtend.frequent_patterns import fpgrowth
 
 # ---------------- Custom CSS ----------------
 CUSTOM_CSS = """
@@ -67,7 +65,7 @@ recommendations = []
 
 for rule in rules:
     try:
-        # Detect if Rule object (mlxtend) or dict
+        # Detect if Rule object or dict
         if hasattr(rule, 'lhs') and hasattr(rule, 'rhs'):
             lhs_ids = list(rule.lhs)
             rhs_ids = list(rule.rhs)
