@@ -1,4 +1,4 @@
-# app.py – Movie Recommender (styled like SMB demo)
+# app.py – Movie Recommender (Apriori/Rule-safe version)
 
 import pathlib
 import pickle
@@ -88,20 +88,32 @@ except Exception as e:
     rules = []
 
 # -------------------------------------------------
-# Build recommendations
+# Build recommendations – works for Rule objects
 # -------------------------------------------------
 recommendations = []
+
 for rule in rules:
     try:
-        lhs_titles = [movie_dict[i] for i in rule["lhs"] if i in movie_dict]
-        rhs_titles = [movie_dict[i] for i in rule["rhs"] if i in movie_dict]
+        # Safe handling: works for dict or Rule object
+        if isinstance(rule, dict):
+            lhs = rule.get("lhs", [])
+            rhs = rule.get("rhs", [])
+            confidence = rule.get("confidence", 0)
+        else:  # Rule object from apriori
+            lhs = rule.lhs
+            rhs = rule.rhs
+            confidence = getattr(rule, "confidence", 0)
+
+        lhs_titles = [movie_dict[i] for i in lhs if i in movie_dict]
+        rhs_titles = [movie_dict[i] for i in rhs if i in movie_dict]
 
         if lhs_titles and rhs_titles:
             recommendations.append({
                 "If you like": ", ".join(lhs_titles),
                 "You might like": ", ".join(rhs_titles),
-                "Confidence": rule.get("confidence", 0),
+                "Confidence": confidence,
             })
+
     except Exception as e:
         st.error(f"Rule processing error: {e}")
         st.text(traceback.format_exc())
