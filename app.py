@@ -1,4 +1,4 @@
-# app.py – Movie Recommender (dict/count-safe)
+# app.py – Movie Recommender (mlxtend Rule-compatible)
 
 import pathlib
 import pickle
@@ -44,7 +44,6 @@ def load_data():
     ratings = pd.read_csv("ratings.csv")
 
     df = pd.merge(movies, ratings, on="movieId", how="outer")
-
     df[["Movie", "Year"]] = df["title"].str.extract(r"(.+?)\s*\((\d{4})\)")
     df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
     df_clean = df.dropna(subset=["userId", "rating", "Year"])
@@ -81,28 +80,20 @@ except Exception as e:
     rules = []
 
 # -------------------------------------------------
-# Build recommendations – dict + counts
+# Build recommendations (mlxtend Rule objects)
 # -------------------------------------------------
 recommendations = []
 
 for rule in rules:
     try:
-        lhs = rule.get("lhs", [])
-        rhs = rule.get("rhs", [])
-
-        # Compute confidence from counts
-        count_full = rule.get("count_full", 0)
-        count_lhs = rule.get("count_lhs", 1)  # avoid div by zero
-        confidence = count_full / count_lhs
-
-        lhs_titles = [movie_dict[i] for i in lhs if i in movie_dict]
-        rhs_titles = [movie_dict[i] for i in rhs if i in movie_dict]
+        lhs_titles = [movie_dict[i] for i in rule.lhs if i in movie_dict]
+        rhs_titles = [movie_dict[i] for i in rule.rhs if i in movie_dict]
 
         if lhs_titles and rhs_titles:
             recommendations.append({
                 "If you like": ", ".join(lhs_titles),
                 "You might like": ", ".join(rhs_titles),
-                "Confidence": confidence,
+                "Confidence": rule.confidence,
             })
 
     except Exception as e:
