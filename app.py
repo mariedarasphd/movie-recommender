@@ -1,4 +1,4 @@
-# app.py — Movie Recommender (Tiffany‑blue + dict-based rules)
+# app.py — Movie Recommender (Tiffany‑blue, clean version)
 # -------------------------------------------------
 import pathlib
 import pickle
@@ -83,7 +83,7 @@ rec_df = pd.DataFrame(recommendations)
 # -------------------------------------------------
 # Sidebar filters
 # -------------------------------------------------
-st.sidebar.header("🔧 Filters")
+st.sidebar.header("Filters")
 min_confidence = st.sidebar.slider("Minimum confidence", 0.0, 1.0, 0.5, 0.01)
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
@@ -98,7 +98,7 @@ if search_movie:
 # -------------------------------------------------
 # Main content
 # -------------------------------------------------
-st.title("🎬 Movie Recommender – Tiffany Blue Edition")
+st.title("🎬 Movie Recommender")
 
 if not filtered_df.empty:
     gb = GridOptionsBuilder.from_dataframe(filtered_df)
@@ -106,7 +106,4 @@ if not filtered_df.empty:
     grid_options = gb.build()
     AgGrid(filtered_df, gridOptions=grid_options, fit_columns_on_grid_load=True)
 else:
-    st.info("No recommendations match the current filters. Try adjusting confidence or search term.")
-
-st.markdown("---")
-st.markdown("Generated using precomputed rules pickle. 🚀")
+    st.info("No recommendations match the current filters.")
