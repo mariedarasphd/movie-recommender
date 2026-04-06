@@ -1,4 +1,4 @@
-# app.py – Movie Recommender (mlxtend Rule-compatible)
+# app.py – Movie Recommender (dict-style rules)
 
 import pathlib
 import pickle
@@ -7,7 +7,7 @@ import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 
 # -------------------------------------------------
-# Custom CSS – Tiffany-blue theme
+# Custom CSS
 # -------------------------------------------------
 CUSTOM_CSS = """
 <style>
@@ -80,20 +80,21 @@ except Exception as e:
     rules = []
 
 # -------------------------------------------------
-# Build recommendations (mlxtend Rule objects)
+# Build recommendations (dict-style rules)
 # -------------------------------------------------
 recommendations = []
 
 for rule in rules:
     try:
-        lhs_titles = [movie_dict[i] for i in rule.lhs if i in movie_dict]
-        rhs_titles = [movie_dict[i] for i in rule.rhs if i in movie_dict]
+        lhs_titles = [movie_dict[i] for i in rule["lhs"] if i in movie_dict]
+        rhs_titles = [movie_dict[i] for i in rule["rhs"] if i in movie_dict]
 
         if lhs_titles and rhs_titles:
+            confidence = rule.get("confidence", rule.get("count_full", 0)/rule.get("count_lhs",1))
             recommendations.append({
                 "If you like": ", ".join(lhs_titles),
                 "You might like": ", ".join(rhs_titles),
-                "Confidence": rule.confidence,
+                "Confidence": confidence,
             })
 
     except Exception as e:
