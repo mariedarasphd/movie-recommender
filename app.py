@@ -1,11 +1,7 @@
-# app.py – Movie Recommender (with efficient-apriori Rule objects)
-
-# -------------------------------------------------
-# Imports
+# app.py – Movie Recommender (Tiffany-blue theme)
 # -------------------------------------------------
 import pathlib
 import pickle
-
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
@@ -15,42 +11,25 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 # -------------------------------------------------
 CUSTOM_CSS = """
 <style>
-body {
-    background-color: #0ABAB5;   /* Tiffany‑blue */
-    color: #ffffff;
-}
-
-section[data-testid="stSidebar"],
-div[data-testid="stBlockContainer"] {
-    background-color: #0ABAB5;
-    border-radius: 8px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: #006D71;
-}
-
-a {
-    color: #ffffff;
-    text-decoration: underline;
-}
+body { background-color: #0ABAB5; color: #ffffff; }
+section[data-testid="stSidebar"], div[data-testid="stBlockContainer"] { background-color: #0ABAB5; border-radius: 8px; }
+h1, h2, h3, h4, h5, h6 { color: #006D71; }
+a { color: #ffffff; text-decoration: underline; }
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
 # -------------------------------------------------
-# Logo handling
+# Sidebar logo
 # -------------------------------------------------
 logo_path = pathlib.Path(__file__).parent / "logo.png"
 if logo_path.is_file():
     st.sidebar.image(str(logo_path), width=120)
 else:
-    st.sidebar.warning(
-        "⚠️ `logo.png` not found – please add it next to `app.py`"
-    )
+    st.sidebar.warning("⚠️ `logo.png` not found – please add it next to `app.py`")
 
 # -------------------------------------------------
-# Page configuration
+# Page config
 # -------------------------------------------------
 st.set_page_config(
     page_title="Movie Recommender",
@@ -59,31 +38,18 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# 1️⃣ Load data
+# Load movie CSVs
 # -------------------------------------------------
 @st.cache_data
-def load_data():
+def load_movies():
     movies = pd.read_csv("movies.csv")
-    ratings = pd.read_csv("ratings.csv")
-    df = pd.merge(movies, ratings, on="movieId", how="outer")
-    df[['Movie', 'Year']] = df['title'].str.extract(r'(.+?)\s*\((\d{4})\)')
-    df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
-    df_clean = df.dropna(subset=['userId', 'rating', 'Year'])
-    # Keep Golden Age movies only
-    golden_age = df_clean[(df_clean['Year'] >= 1930) & (df_clean['Year'] <= 1969)]
-    # Top 500 movies
-    top_movies = golden_age['movieId'].value_counts().nlargest(500).index
-    filtered = golden_age[golden_age['movieId'].isin(top_movies)]
-    # Remove Disney / Children / Family
-    filtered = filtered[~filtered['Movie'].str.contains('Disney', case=False, na=False)]
-    filtered = filtered[~filtered['genres'].str.contains("Children|Family", na=False)]
-    movie_dict = movies.set_index('movieId')['title'].to_dict()
-    return filtered, movie_dict
+    movie_dict = movies.set_index("movieId")["title"].to_dict()
+    return movies, movie_dict
 
-filtered_data, movie_dict = load_data()
+movies, movie_dict = load_movies()
 
 # -------------------------------------------------
-# 2️⃣ Sidebar inputs
+# Sidebar filters
 # -------------------------------------------------
 st.sidebar.header("🔧 Filters")
 min_confidence = st.sidebar.slider(
@@ -96,56 +62,50 @@ min_confidence = st.sidebar.slider(
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
 # -------------------------------------------------
-# 3️⃣ Load rules.pkl (efficient-apriori Rule objects)
+# Load rules from pickle
 # -------------------------------------------------
 with open("rules.pkl", "rb") as f:
     rules = pickle.load(f)
 
 # -------------------------------------------------
-# 4️⃣ Build recommendation table
+# Build recommendations DataFrame
 # -------------------------------------------------
 recommendations = []
 for rule in rules:
-    lhs_titles = [movie_dict[i] for i in rule.lhs]
-    rhs_titles = [movie_dict[i] for i in rule.rhs]
+    lhs_titles = [movie_dict.get(i, f"Unknown ({i})") for i in rule["lhs"]]
+    rhs_titles = [movie_dict.get(i, f"Unknown ({i})") for i in rule["rhs"]]
     recommendations.append({
         "If you like": ", ".join(lhs_titles),
         "You might like": ", ".join(rhs_titles),
-        "Confidence": rule.confidence,
+        "Confidence": rule.get("confidence", 0),
+        "Lift": rule.get("lift", 0)
     })
 
 rec_df = pd.DataFrame(recommendations)
 
 # -------------------------------------------------
-# 5️⃣ Filter by search term & confidence
+# Apply filters
 # -------------------------------------------------
 if search_movie:
     rec_df = rec_df[
-        rec_df["If you like"].str.contains(search_movie, case=False, na=False) |
-        rec_df["You might like"].str.contains(search_movie, case=False, na=False)
+        rec_df["If you like"].str.contains(search_movie, case=False, na=False)
+        | rec_df["You might like"].str.contains(search_movie, case=False, na=False)
     ]
 rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
 
 # -------------------------------------------------
-# 6️⃣ Main title & subtitle
+# Main title
 # -------------------------------------------------
 st.title("🎬 Movie Recommender + Association Rules")
 st.markdown(
-    """
-    This demo shows frequent item-sets from Golden Age movies (1930-1969)
-    and suggests movies that often appear together in user histories.
-    """
+    "This demo shows frequent movie pairings from classic films (1930-1969) "
+    "and suggests what movies you might like based on user histories."
 )
 
-# -------------------------------------------------
-# 7️⃣ Show filtered recommendations
-# -------------------------------------------------
-st.subheader(
-    f"Recommendations for: {search_movie if search_movie else 'All Movies'}"
-)
+st.subheader(f"Recommendations for: {search_movie if search_movie else 'All Movies'}")
 
 # -------------------------------------------------
-# 8️⃣ Centered Ag‑Grid table
+# Show table
 # -------------------------------------------------
 if not rec_df.empty:
     gb = GridOptionsBuilder.from_dataframe(rec_df)
