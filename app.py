@@ -1,4 +1,4 @@
-# app.py – Movie Recommender (Apriori/Rule-safe version)
+# app.py – Movie Recommender (Apriori-safe, frozenset-ready)
 
 import pathlib
 import pickle
@@ -88,21 +88,21 @@ except Exception as e:
     rules = []
 
 # -------------------------------------------------
-# Build recommendations – works for Rule objects
+# Build recommendations – Apriori / Rule-safe
 # -------------------------------------------------
 recommendations = []
 
 for rule in rules:
     try:
-        # Safe handling: works for dict or Rule object
+        # Dict-safe
         if isinstance(rule, dict):
-            lhs = rule.get("lhs", [])
-            rhs = rule.get("rhs", [])
+            lhs = list(rule.get("lhs", []))
+            rhs = list(rule.get("rhs", []))
             confidence = rule.get("confidence", 0)
-        else:  # Rule object from apriori
-            lhs = rule.lhs
-            rhs = rule.rhs
-            confidence = getattr(rule, "confidence", 0)
+        else:  # Rule object (frozensets)
+            lhs = list(rule.lhs)
+            rhs = list(rule.rhs)
+            confidence = getattr(rule, "confidence", getattr(rule, "conf", 0))
 
         lhs_titles = [movie_dict[i] for i in lhs if i in movie_dict]
         rhs_titles = [movie_dict[i] for i in rhs if i in movie_dict]
