@@ -5,6 +5,7 @@ import pickle
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
+import traceback
 
 # -------------------------------------------------
 # Custom CSS – Tiffany-blue theme
@@ -79,26 +80,31 @@ search_movie = st.sidebar.text_input("Search for a movie", "")
 # -------------------------------------------------
 # Load rules
 # -------------------------------------------------
-with open("rules.pkl", "rb") as f:
-    rules = pickle.load(f)
+try:
+    with open("rules.pkl", "rb") as f:
+        rules = pickle.load(f)
+except Exception as e:
+    st.error(f"Failed to load rules.pkl: {e}")
+    rules = []
 
 # -------------------------------------------------
-# Build recommendations (FIXED)
+# Build recommendations
 # -------------------------------------------------
 recommendations = []
 for rule in rules:
     try:
-        lhs_titles = [movie_dict[i] for i in rule.lhs if i in movie_dict]
-        rhs_titles = [movie_dict[i] for i in rule.rhs if i in movie_dict]
+        lhs_titles = [movie_dict[i] for i in rule["lhs"] if i in movie_dict]
+        rhs_titles = [movie_dict[i] for i in rule["rhs"] if i in movie_dict]
 
         if lhs_titles and rhs_titles:
             recommendations.append({
                 "If you like": ", ".join(lhs_titles),
                 "You might like": ", ".join(rhs_titles),
-                "Confidence": rule.confidence,
+                "Confidence": rule.get("confidence", 0),
             })
-    except:
-        continue
+    except Exception as e:
+        st.error(f"Rule processing error: {e}")
+        st.text(traceback.format_exc())
 
 rec_df = pd.DataFrame(recommendations)
 
