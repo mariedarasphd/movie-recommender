@@ -1,11 +1,10 @@
-# app.py – Movie Recommender (with efficient-apriori rules)
+# app.py – Movie Recommender (styled like SMB demo)
 
 # -------------------------------------------------
 # Imports
 # -------------------------------------------------
 import pathlib
 import pickle
-
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
@@ -43,8 +42,7 @@ if logo_path.is_file():
     st.sidebar.image(str(logo_path), width=120)
 else:
     st.sidebar.warning(
-        "⚠️ `logo.png` not found – please add it next to `app.py` "
-        "(or update `logo_path` accordingly)."
+        "⚠️ `logo.png` not found – please add it next to `app.py`."
     )
 
 # -------------------------------------------------
@@ -57,15 +55,14 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# 1️⃣ Load data (cached)
+# 1️⃣ Load movies
 # -------------------------------------------------
 @st.cache_data
 def load_movies():
     movies = pd.read_csv("movies.csv")
-    movie_dict = movies.set_index("movieId")["title"].to_dict()
-    return movies, movie_dict
+    return movies.set_index("movieId")["title"].to_dict()
 
-movies, movie_dict = load_movies()
+movie_dict = load_movies()
 
 # -------------------------------------------------
 # 2️⃣ Sidebar inputs
@@ -81,27 +78,28 @@ min_confidence = st.sidebar.slider(
 search_movie = st.sidebar.text_input("Search for a movie", "")
 
 # -------------------------------------------------
-# 3️⃣ Load pre-computed efficient-apriori rules
+# 3️⃣ Load pre-computed Apriori rules (efficient-apriori)
 # -------------------------------------------------
 with open("rules.pkl", "rb") as f:
     rules = pickle.load(f)
 
 # -------------------------------------------------
-# 4️⃣ Build recommendation table (convert Rule objects to DataFrame-friendly format)
+# 4️⃣ Convert rules to DataFrame
 # -------------------------------------------------
 recommendations = []
 for rule in rules:
     try:
-        lhs_titles = [movie_dict[i] for i in rule.lhs if i in movie_dict]
-        rhs_titles = [movie_dict[i] for i in rule.rhs if i in movie_dict]
-        if lhs_titles and rhs_titles:
-            recommendations.append({
+        lhs_titles = [movie_dict[i] for i in rule.lhs]
+        rhs_titles = [movie_dict[i] for i in rule.rhs]
+        recommendations.append(
+            {
                 "If you like": ", ".join(lhs_titles),
                 "You might like": ", ".join(rhs_titles),
-                "Confidence": round(rule.confidence, 2),
-                "Lift": round(rule.lift, 2)
-            })
-    except Exception:
+                "Confidence": rule.confidence,
+            }
+        )
+    except KeyError:
+        # Ignore rules with movieIds not in movie_dict
         continue
 
 rec_df = pd.DataFrame(recommendations)
@@ -119,11 +117,11 @@ rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
 # -------------------------------------------------
 # 6️⃣ Main title & subtitle
 # -------------------------------------------------
-st.title("🎬 Movie Recommender + Association Rules")
+st.title("🎬 Movie Recommender + Association Rules")
 st.markdown(
     """
-    A lightweight demo that shows **frequent item‑sets** from classic movies
-    (1930‑1969) and suggests movies that often appear together in user histories.
+    A lightweight demo that shows **frequent item-sets** from classic movies
+    (1930–1969) and suggests movies that often appear together in user histories.
     """
 )
 
@@ -135,7 +133,7 @@ st.subheader(
 )
 
 # -------------------------------------------------
-# 8️⃣ Centered Ag‑Grid table
+# 8️⃣ Centered Ag-Grid table
 # -------------------------------------------------
 if not rec_df.empty:
     gb = GridOptionsBuilder.from_dataframe(rec_df)
@@ -143,4 +141,6 @@ if not rec_df.empty:
     grid_options = gb.build()
     AgGrid(rec_df, gridOptions=grid_options, fit_columns_on_grid_load=True)
 else:
-    st.info("No recommendations match the current filters.")ers. Try adjusting confidence or search term.")
+    st.info(
+        "No recommendations match the current filters. Try adjusting confidence or search term."
+    )
