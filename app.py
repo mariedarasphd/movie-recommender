@@ -1,11 +1,10 @@
 # app.py – Movie Recommender (Tiffany-blue theme, dict-style pickle)
-# Updated with error handling and safe lookups
+# Updated with debugging and fallback display
 
 # -------------------------------------------------
 # Imports
 # -------------------------------------------------
 import os
-import pathlib
 import pickle
 
 import pandas as pd
@@ -81,6 +80,7 @@ try:
         st.stop()
 
     movie_dict = movies.set_index("movieId")["title"].to_dict()
+    st.sidebar.success("Loaded " + str(len(movie_dict)) + " movies")
     
 except FileNotFoundError:
     st.error("Could not find movies.csv")
@@ -97,10 +97,14 @@ min_confidence = st.sidebar.slider(
     "Minimum confidence for recommendations",
     min_value=0.0,
     max_value=1.0,
-    value=0.5,
+    value=0.1,  # Changed from 0.5 to 0.1 to show more results
     step=0.01,
 )
 search_movie = st.sidebar.text_input("Search for a movie", "")
+
+# Debug: Show confidence distribution
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Debug Info:**")
 
 # -------------------------------------------------
 # Load rules pickle (dict-style)
@@ -115,6 +119,8 @@ try:
     if not isinstance(rules, list):
         st.error("Error: The loaded pickle file is not a list of rules.")
         st.stop()
+    
+    st.sidebar.success("Loaded " + str(len(rules)) + " rules")
         
 except FileNotFoundError:
     st.error("Could not find rules.pkl")
@@ -141,17 +147,23 @@ for i, rule in enumerate(rules):
             "Lift": round(rule.get("lift", 0), 4),
         })
     except KeyError as e:
-        st.warning("Skipping rule " + str(i) + ": Missing movie ID " + str(e))
         errors_found = True
     except Exception as e:
-        st.warning("Skipping rule " + str(i) + ": " + str(e))
         errors_found = True
 
 rec_df = pd.DataFrame(recommendations)
 
+# Debug: Show confidence stats
+if not rec_df.empty:
+    st.sidebar.markdown("Min confidence: " + str(round(rec_df["Confidence"].min(), 4)))
+    st.sidebar.markdown("Max confidence: " + str(round(rec_df["Confidence"].max(), 4)))
+    st.sidebar.markdown("Avg confidence: " + str(round(rec_df["Confidence"].mean(), 4)))
+
 # -------------------------------------------------
 # Apply search and confidence filters
 # -------------------------------------------------
+original_count = len(rec_df)
+
 if search_movie:
     mask = (
         rec_df["If you like"].str.contains(search_movie, case=False, na=False) |
@@ -160,6 +172,8 @@ if search_movie:
     rec_df = rec_df[mask]
 
 rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
+
+filtered_count = len(rec_df)
 
 # -------------------------------------------------
 # Title & description
@@ -170,7 +184,13 @@ st.markdown(
 )
 
 if errors_found:
-    st.info("Some rules were skipped due to missing movie IDs. Check the sidebar for details.")
+    st.info("Some rules were skipped due to missing movie IDs.")
+
+# Debug: Show filter results
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Results:**")
+st.sidebar.markdown("Total rules: " + str(original_count))
+st.sidebar.markdown("After filtering: " + str(filtered_count))
 
 # -------------------------------------------------
 # Show table
@@ -179,6 +199,7 @@ st.subheader("Recommendations for: " + (search_movie if search_movie else "All M
 
 if not rec_df.empty:
     try:
+        # First try AgGrid
         gb = GridOptionsBuilder.from_dataframe(rec_df)
         gb.configure_default_column(editable=False, sortable=True, filter=True)
         gb.configure_column("Confidence", type=["numericColumn", "numberColumnFilter"])
@@ -188,11 +209,20 @@ if not rec_df.empty:
             rec_df, 
             gridOptions=grid_options, 
             fit_columns_on_grid_load=True,
-            allow_unsafe_jscode=True
+            allow_unsafe_jscode=True,
+            height=400
         )
     except Exception as e:
-        st.error("Error rendering grid: " + str(e))
-        st.write("Falling back to standard dataframe:")
-        st.dataframe(rec_df)
+        # Fallback to standard dataframe if AgGrid fails
+        st.warning("AgGrid failed, showing standard table:")
+        st.dataframe(rec_df, height=400)
 else:
-    st.info("No recommendations match the current filters.")
+    st.warning("No recommendations match the current filters.")
+    st.info("Try lowering the minimum confidence slider or clearing the search box.")
+    
+    # Show sample of raw data for debugging
+    if not recommendations:
+        st.error("No recommendations were generated. Check if rules.pkl loaded correctly.")
+    else:
+        st.markdown("**Sample of unfiltered data (first 5 rows):**")
+        st.dataframe(pd.DataFrame(recommendations).head())
