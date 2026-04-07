@@ -1,12 +1,11 @@
-# app.py – Movie Recommender (Tiffany-blue theme)
-# Final version: Forces standard table if AgGrid fails, ensures visibility
+# app.py – Movie Recommender (Stable Native Table Version)
+# Removed AgGrid to prevent crashes. Uses native st.dataframe.
 
 import os
 import pickle
 
 import pandas as pd
 import streamlit as st
-from st_aggrid import AgGrid, GridOptionsBuilder
 
 # -------------------------------------------------
 # Configuration
@@ -20,7 +19,6 @@ st.set_page_config(
 # -------------------------------------------------
 # Custom CSS – Tiffany-blue theme
 # -------------------------------------------------
-# Force text color to be visible
 CUSTOM_CSS = """
 <style>
 body {
@@ -43,21 +41,14 @@ a {
     text-decoration: underline;
 }
 
-/* Force all text in containers to be white */
-div[data-testid="stVerticalBlock"] > div, 
-div[data-testid="stVerticalBlock"] > div > div {
-    color: #ffffff !important;
-}
-
 /* Ensure table text is white */
-.css-1r6slb0, .stDataFrame, .stTable {
+.css-1r6slb0, .stDataFrame {
     color: #ffffff !important;
 }
 
-/* Ensure AgGrid text is white */
-.ag-cell, .ag-header-cell {
+/* Ensure header text is readable */
+.stDataFrame .dataframe {
     color: #ffffff !important;
-    background-color: #0ABAB5 !important;
 }
 </style>
 """
@@ -148,10 +139,10 @@ errors_found = False
 
 for i, rule in enumerate(rules):
     try:
-        # Convert IDs to Titles
         lhs_ids = rule["lhs"]
         rhs_ids = rule["rhs"]
         
+        # Convert IDs to Titles safely
         lhs_titles = [movie_dict.get(j, f"ID:{j}") for j in lhs_ids]
         rhs_titles = [movie_dict.get(j, f"ID:{j}") for j in rhs_ids]
         
@@ -203,36 +194,27 @@ st.sidebar.markdown(f"Total: {original_count}")
 st.sidebar.markdown(f"After filter: {filtered_count}")
 
 # -------------------------------------------------
-# Show table
+# Show table (Native Streamlit Table)
 # -------------------------------------------------
 st.subheader(f"Recommendations ({filtered_count} found)")
 
 if not rec_df.empty:
-    # DEBUG: Show first few rows as text to verify content
-    st.markdown("**Preview of data (first 3 rows):**")
-    st.write(rec_df.head(3).to_string(index=False))
+    # Use native dataframe which is stable and fast
+    st.dataframe(
+        rec_df, 
+        use_container_width=True, 
+        hide_index=True,
+        height=600
+    )
     
-    # Try AgGrid first
-    try:
-        st.markdown("**Interactive Table:**")
-        gb = GridOptionsBuilder.from_dataframe(rec_df)
-        gb.configure_default_column(editable=False, sortable=True, filter=True)
-        gb.configure_column("Confidence", type=["numericColumn", "numberColumnFilter"])
-        
-        grid_options = gb.build()
-        
-        # Force height
-        AgGrid(
-            rec_df, 
-            gridOptions=grid_options, 
-            fit_columns_on_grid_load=True,
-            height=500,
-            allow_unsafe_jscode=True
-        )
-    except Exception as e:
-        st.error(f"AgGrid failed: {e}")
-        st.write("Showing standard table instead:")
-        st.dataframe(rec_df, height=500)
+    # Optional: Download button
+    csv = rec_df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="Download Recommendations as CSV",
+        data=csv,
+        file_name='movie_recommendations.csv',
+        mime='text/csv',
+    )
 else:
     st.warning("No recommendations match the current filters.")
     st.info("Try lowering the minimum confidence slider.")
