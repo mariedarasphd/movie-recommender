@@ -1,14 +1,26 @@
 # app.py – Movie Recommender (Tiffany‑blue theme, dict-style pickle)
+# Updated with error handling and safe lookups
 
 # -------------------------------------------------
 # Imports
 # -------------------------------------------------
+import os
 import pathlib
 import pickle
+import sys
 
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
+
+# -------------------------------------------------
+# Configuration
+# -------------------------------------------------
+st.set_page_config(
+    page_title="Movie Recommender",
+    page_icon="🎬",
+    layout="wide",
+)
 
 # -------------------------------------------------
 # Custom CSS – Tiffany‑blue theme
@@ -34,35 +46,54 @@ a {
     color: #ffffff;
     text-decoration: underline;
 }
+
+/* Ensure text is visible */
+.stMarkdown, .stDataFrame, .stTable {
+    color: #ffffff !important;
+}
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
 # -------------------------------------------------
+# Helper: Get absolute paths
+# -------------------------------------------------
+def get_file_path(filename):
+    """Returns the absolute path to a file in the same directory as this script."""
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
+
+# -------------------------------------------------
 # Logo
 # -------------------------------------------------
-logo_path = pathlib.Path(__file__).parent / "logo.png"
-if logo_path.is_file():
-    st.sidebar.image(str(logo_path), width=120)
+logo_path = get_file_path("logo.png")
+if os.path.isfile(logo_path):
+    st.sidebar.image(logo_path, width=120)
 else:
     st.sidebar.warning(
         "⚠️ `logo.png` not found – please add it next to `app.py`"
     )
 
 # -------------------------------------------------
-# Page config
-# -------------------------------------------------
-st.set_page_config(
-    page_title="Movie Recommender",
-    page_icon="🎬",
-    layout="wide",
-)
-
-# -------------------------------------------------
 # Load movie data
 # -------------------------------------------------
-movies = pd.read_csv("movies.csv")
-movie_dict = movies.set_index("movieId")["title"].to_dict()
+movies_path = get_file_path("movies.csv")
+
+try:
+    movies = pd.read_csv(movies_path)
+    
+    # Validate columns
+    if "movieId" not in movies.columns or "title" not in movies.columns:
+        st.error("❌ Error: 'movies.csv' must contain 'movieId' and 'title' columns.")
+        st.stop()
+
+    movie_dict = movies.set_index("movieId")["title"].to_dict()
+    
+except FileNotFoundError:
+    st.error(f"❌ Error: Could not find 'movies.csv' at {movies_path}.")
+    st.stop()
+except Exception as e:
+    st.error(f"❌ Error loading movies.csv: {e}")
+    st.stop()
 
 # -------------------------------------------------
 # Sidebar filters
@@ -80,56 +111,12 @@ search_movie = st.sidebar.text_input("Search for a movie", "")
 # -------------------------------------------------
 # Load rules pickle (dict-style)
 # -------------------------------------------------
-with open("rules.pkl", "rb") as f:
-    rules = pickle.load(f)
+rules_path = get_file_path("rules.pkl")
+rules = []
 
-# -------------------------------------------------
-# Build recommendation table
-# -------------------------------------------------
-recommendations = []
-for rule in rules:
-    lhs_titles = [movie_dict[i] for i in rule["lhs"]]
-    rhs_titles = [movie_dict[i] for i in rule["rhs"]]
-    recommendations.append({
-        "If you like": ", ".join(lhs_titles),
-        "You might like": ", ".join(rhs_titles),
-        "Confidence": rule["confidence"],
-    })
-
-rec_df = pd.DataFrame(recommendations)
-
-# -------------------------------------------------
-# Apply search and confidence filters
-# -------------------------------------------------
-if search_movie:
-    rec_df = rec_df[
-        rec_df["If you like"].str.contains(search_movie, case=False, na=False) |
-        rec_df["You might like"].str.contains(search_movie, case=False, na=False)
-    ]
-rec_df = rec_df[rec_df["Confidence"] >= min_confidence]
-
-# -------------------------------------------------
-# Title & description
-# -------------------------------------------------
-st.title("🎬 Movie Recommender + Association Rules")
-st.markdown(
-    """
-    Explore classic movie pairings (1930-1969). See what other users often watched together
-    and get personalized suggestions!
-    """
-)
-
-# -------------------------------------------------
-# Show table
-# -------------------------------------------------
-st.subheader(
-    f"Recommendations for: {search_movie if search_movie else 'All Movies'}"
-)
-
-if not rec_df.empty:
-    gb = GridOptionsBuilder.from_dataframe(rec_df)
-    gb.configure_default_column(editable=False, sortable=True, filter=True)
-    grid_options = gb.build()
-    AgGrid(rec_df, gridOptions=grid_options, fit_columns_on_grid_load=True)
-else:
-    st.info("No recommendations match the current filters.")
+try:
+    with open(rules_path, "rb") as f:
+        rules = pickle.load(f)
+        
+    if not isinstance(rules, list):
+        st.error("❌ Error: The loaded
