@@ -202,7 +202,6 @@ if not rec_df.empty:
     # Use native dataframe which is stable and fast
     st.dataframe(
         rec_df, 
-        use_container_width=True, 
         hide_index=True,
         height=600
     )
