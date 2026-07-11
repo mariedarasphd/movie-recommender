@@ -194,22 +194,51 @@ st.sidebar.markdown(f"Total: {original_count}")
 st.sidebar.markdown(f"After filter: {filtered_count}")
 
 # -------------------------------------------------
-# Show table (Native Streamlit Table)
+# Show table (Native Streamlit Table) with pagination
 # -------------------------------------------------
 st.subheader(f"Recommendations ({filtered_count} found)")
 
+ROWS_PER_PAGE = 15
+
 if not rec_df.empty:
-    # Use native dataframe which is stable and fast
+    # Reset index for clean pagination
+    rec_df = rec_df.reset_index(drop=True)
+    
+    total_pages = max(1, (len(rec_df) + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+    
+    # Pagination controls
+    col_prev, col_info, col_next = st.columns([1, 2, 1])
+    
+    with col_prev:
+        if st.button("⬅️ Previous", disabled=st.session_state.get("current_page", 1) <= 1):
+            st.session_state["current_page"] -= 1
+    
+    with col_next:
+        if st.button("Next ➡️", disabled=st.session_state.get("current_page", 1) >= total_pages):
+            st.session_state["current_page"] += 1
+    
+    with col_info:
+        current_page = st.session_state.get("current_page", 1)
+        if current_page > total_pages:
+            current_page = 1
+            st.session_state["current_page"] = 1
+        st.markdown(f"**Page {current_page} of {total_pages}**")
+    
+    # Slice the dataframe for the current page
+    start_idx = (current_page - 1) * ROWS_PER_PAGE
+    end_idx = start_idx + ROWS_PER_PAGE
+    page_df = rec_df.iloc[start_idx:end_idx]
+    
     st.dataframe(
-        rec_df, 
+        page_df,
         hide_index=True,
-        height=600
+        height=500,
     )
     
-    # Optional: Download button
+    # Optional: Download button (downloads ALL filtered results, not just the page)
     csv = rec_df.to_csv(index=False).encode('utf-8')
     st.download_button(
-        label="Download Recommendations as CSV",
+        label="Download All Recommendations as CSV",
         data=csv,
         file_name='movie_recommendations.csv',
         mime='text/csv',
