@@ -72,23 +72,23 @@ else:
 # -------------------------------------------------
 # Load movie data
 # -------------------------------------------------
-movies_path = get_file_path("movies.csv")
+movies_path = get_file_path("golden_age_movies.csv")
 
 try:
     movies = pd.read_csv(movies_path)
     
     if "movieId" not in movies.columns or "title" not in movies.columns:
-        st.error("Error: movies.csv must contain movieId and title columns.")
+        st.error("Error: golden_age_movies.csv must contain movieId and title columns.")
         st.stop()
 
     movie_dict = movies.set_index("movieId")["title"].to_dict()
     st.sidebar.success(f"Loaded {len(movie_dict)} movies")
     
 except FileNotFoundError:
-    st.error("Could not find movies.csv")
+    st.error("Could not find golden_age_movies.csv")
     st.stop()
 except Exception as e:
-    st.error("Error loading movies.csv: " + str(e))
+    st.error("Error loading golden_age_movies.csv: " + str(e))
     st.stop()
 
 # -------------------------------------------------
@@ -121,6 +121,14 @@ try:
     if not isinstance(rules, list):
         st.error("Error: The loaded pickle file is not a list of rules.")
         st.stop()
+    
+    # Filter out rules that reference removed movieIds
+    valid_movie_ids = set(movie_dict.keys())
+    rules = [
+        rule for rule in rules
+        if all(j in valid_movie_ids for j in rule["lhs"])
+        and all(j in valid_movie_ids for j in rule["rhs"])
+    ]
     
     st.sidebar.success(f"Loaded {len(rules)} rules")
         
