@@ -190,7 +190,7 @@ filtered_count = len(rec_df)
 # Title & description
 # -------------------------------------------------
 st.title("Movie Recommender + Association Rules")
-st.markdown("Explore classic movie pairings (1930-1969).")
+st.markdown("Find movie recommendations based on your favorites — searchable and exportable.")
 
 if errors_found:
     st.info("Some rules were skipped.")
