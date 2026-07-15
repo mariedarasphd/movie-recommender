@@ -83,7 +83,7 @@ else:
 # -------------------------------------------------
 # Header Image (Audrey Hepburn-esque woman at computer)
 # -------------------------------------------------
-header_image_path = get_images_path("header.png")  # or whatever your header image is named
+header_image_path = get_images_path("tiffanys.png")
 if os.path.isfile(header_image_path):
     st.image(header_image_path, use_column_width=True, caption="Breakfast at Tiffany's Customer Recommendation Engine")
 else:
