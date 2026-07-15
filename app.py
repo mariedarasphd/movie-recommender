@@ -50,6 +50,14 @@ a {
 .stDataFrame .dataframe {
     color: #ffffff !important;
 }
+
+/* Header image styling */
+.header-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
@@ -60,35 +68,47 @@ st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 def get_file_path(filename):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
 
+def get_images_path(filename):
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images', filename)
+
 # -------------------------------------------------
 # Logo
 # -------------------------------------------------
-logo_path = get_file_path("logo.png")
+logo_path = get_images_path("logo.png")
 if os.path.isfile(logo_path):
     st.sidebar.image(logo_path, width=120)
 else:
     st.sidebar.warning("logo.png not found")
 
 # -------------------------------------------------
+# Header Image (Audrey Hepburn-esque woman at computer)
+# -------------------------------------------------
+header_image_path = get_images_path("header.png")  # or whatever your header image is named
+if os.path.isfile(header_image_path):
+    st.image(header_image_path, use_column_width=True, caption="Breakfast at Tiffany's Customer Recommendation Engine")
+else:
+    st.warning("Header image not found")
+
+# -------------------------------------------------
 # Load movie data
 # -------------------------------------------------
-movies_path = get_file_path("golden_age_movies.csv")
+movies_path = get_file_path("expanded_classics.csv")
 
 try:
     movies = pd.read_csv(movies_path)
     
     if "movieId" not in movies.columns or "title" not in movies.columns:
-        st.error("Error: golden_age_movies.csv must contain movieId and title columns.")
+        st.error("Error: expanded_classics.csv must contain movieId and title columns.")
         st.stop()
 
     movie_dict = movies.set_index("movieId")["title"].to_dict()
-    st.sidebar.success(f"Loaded {len(movie_dict)} movies")
+    st.sidebar.success(f"Loaded {len(movie_dict)} Classic Hollywood films (1925-1965)")
     
 except FileNotFoundError:
-    st.error("Could not find golden_age_movies.csv")
+    st.error("Could not find expanded_classics.csv")
     st.stop()
 except Exception as e:
-    st.error("Error loading golden_age_movies.csv: " + str(e))
+    st.error("Error loading expanded_classics.csv: " + str(e))
     st.stop()
 
 # -------------------------------------------------
@@ -189,8 +209,8 @@ filtered_count = len(rec_df)
 # -------------------------------------------------
 # Title & description
 # -------------------------------------------------
-st.title("Movie Recommender + Association Rules")
-st.markdown("Find movie recommendations based on your favorites — searchable and exportable.")
+st.title("Breakfast at Tiffany's Customer Recommendation Engine")
+st.markdown("Find movie recommendations based on your favorites — searchable and exportable. Explore Classic Hollywood cinema from 1925-1965.")
 
 if errors_found:
     st.info("Some rules were skipped.")
