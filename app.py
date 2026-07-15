@@ -85,7 +85,7 @@ else:
 # -------------------------------------------------
 header_image_path = get_images_path("tiffanys.png")
 if os.path.isfile(header_image_path):
-    st.image(header_image_path, use_column_width=True, caption="Breakfast at Tiffany's Customer Recommendation Engine")
+    st.image(header_image_path, width=400, caption="Breakfast at Tiffany's Customer Recommendation Engine")
 else:
     st.warning("Header image not found")
 
