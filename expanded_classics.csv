@@ -1,0 +1,874 @@
+movieId,title,genres,year
+199,"Umbrellas of Cherbourg, The (Parapluies de Cherbourg, Les) (1964)",Drama|Musical|Romance,1964.0
+594,Snow White and the Seven Dwarfs (1937),Animation|Children|Drama|Fantasy|Musical,1937.0
+596,Pinocchio (1940),Animation|Children|Fantasy|Musical,1940.0
+668,Song of the Little Road (Pather Panchali) (1955),Drama,1955.0
+670,"World of Apu, The (Apur Sansar) (1959)",Drama,1959.0
+680,"Alphaville (Alphaville, une étrange aventure de Lemmy Caution) (1965)",Drama|Mystery|Romance|Sci-Fi|Thriller,1965.0
+841,"Eyes Without a Face (Yeux sans visage, Les) (1959)",Horror,1959.0
+897,For Whom the Bell Tolls (1943),Adventure|Drama|Romance|War,1943.0
+898,"Philadelphia Story, The (1940)",Comedy|Drama|Romance,1940.0
+899,Singin' in the Rain (1952),Comedy|Musical|Romance,1952.0
+900,"American in Paris, An (1951)",Musical|Romance,1951.0
+901,Funny Face (1957),Comedy|Musical,1957.0
+902,Breakfast at Tiffany's (1961),Drama|Romance,1961.0
+903,Vertigo (1958),Drama|Mystery|Romance|Thriller,1958.0
+904,Rear Window (1954),Mystery|Thriller,1954.0
+905,It Happened One Night (1934),Comedy|Romance,1934.0
+906,Gaslight (1944),Drama|Thriller,1944.0
+907,"Gay Divorcee, The (1934)",Comedy|Musical|Romance,1934.0
+908,North by Northwest (1959),Action|Adventure|Mystery|Romance|Thriller,1959.0
+909,"Apartment, The (1960)",Comedy|Drama|Romance,1960.0
+910,Some Like It Hot (1959),Comedy|Crime,1959.0
+911,Charade (1963),Comedy|Crime|Mystery|Romance|Thriller,1963.0
+912,Casablanca (1942),Drama|Romance,1942.0
+913,"Maltese Falcon, The (1941)",Film-Noir|Mystery,1941.0
+914,My Fair Lady (1964),Comedy|Drama|Musical|Romance,1964.0
+915,Sabrina (1954),Comedy|Romance,1954.0
+916,Roman Holiday (1953),Comedy|Drama|Romance,1953.0
+917,"Little Princess, The (1939)",Children|Drama,1939.0
+918,Meet Me in St. Louis (1944),Musical,1944.0
+919,"Wizard of Oz, The (1939)",Adventure|Children|Fantasy|Musical,1939.0
+920,Gone with the Wind (1939),Drama|Romance|War,1939.0
+922,Sunset Blvd. (a.k.a. Sunset Boulevard) (1950),Drama|Film-Noir|Romance,1950.0
+923,Citizen Kane (1941),Drama|Mystery,1941.0
+926,All About Eve (1950),Drama,1950.0
+927,"Women, The (1939)",Comedy,1939.0
+928,Rebecca (1940),Drama|Mystery|Romance|Thriller,1940.0
+929,Foreign Correspondent (1940),Drama|Film-Noir|Mystery|Thriller,1940.0
+930,Notorious (1946),Film-Noir|Romance|Thriller,1946.0
+931,Spellbound (1945),Mystery|Romance|Thriller,1945.0
+932,"Affair to Remember, An (1957)",Drama|Romance,1957.0
+933,To Catch a Thief (1955),Crime|Mystery|Romance|Thriller,1955.0
+934,Father of the Bride (1950),Comedy,1950.0
+935,"Band Wagon, The (1953)",Comedy|Musical,1953.0
+936,Ninotchka (1939),Comedy|Romance,1939.0
+937,Love in the Afternoon (1957),Comedy|Romance,1957.0
+938,Gigi (1958),Musical,1958.0
+940,"Adventures of Robin Hood, The (1938)",Action|Adventure|Romance,1938.0
+941,"Mark of Zorro, The (1940)",Adventure,1940.0
+942,Laura (1944),Crime|Film-Noir|Mystery,1944.0
+943,"Ghost and Mrs. Muir, The (1947)",Drama|Fantasy|Romance,1947.0
+944,Lost Horizon (1937),Drama,1937.0
+945,Top Hat (1935),Comedy|Musical|Romance,1935.0
+946,To Be or Not to Be (1942),Comedy|Drama|War,1942.0
+947,My Man Godfrey (1936),Comedy|Romance,1936.0
+948,Giant (1956),Drama|Romance|Western,1956.0
+949,East of Eden (1955),Drama,1955.0
+950,"Thin Man, The (1934)",Comedy|Crime,1934.0
+951,His Girl Friday (1940),Comedy|Romance,1940.0
+952,Around the World in 80 Days (1956),Adventure|Comedy,1956.0
+953,It's a Wonderful Life (1946),Children|Drama|Fantasy|Romance,1946.0
+954,Mr. Smith Goes to Washington (1939),Drama,1939.0
+955,Bringing Up Baby (1938),Comedy|Romance,1938.0
+956,Penny Serenade (1941),Drama|Romance,1941.0
+959,Of Human Bondage (1934),Drama,1934.0
+961,Little Lord Fauntleroy (1936),Drama,1936.0
+963,"Inspector General, The (1949)",Musical,1949.0
+965,"39 Steps, The (1935)",Drama|Mystery|Thriller,1935.0
+969,"African Queen, The (1951)",Adventure|Comedy|Romance|War,1951.0
+970,Beat the Devil (1953),Adventure|Comedy|Crime|Drama|Romance,1953.0
+971,Cat on a Hot Tin Roof (1958),Drama,1958.0
+973,Meet John Doe (1941),Comedy|Drama,1941.0
+976,"Farewell to Arms, A (1932)",Romance|War,1932.0
+982,Picnic (1955),Drama,1955.0
+1008,"Davy Crockett, King of the Wild Frontier (1955)",Adventure|Western,1955.0
+1012,Old Yeller (1957),Children|Drama,1957.0
+1013,"Parent Trap, The (1961)",Children|Comedy|Romance,1961.0
+1014,Pollyanna (1960),Children|Comedy|Drama,1960.0
+1016,"Shaggy Dog, The (1959)",Children|Comedy,1959.0
+1017,Swiss Family Robinson (1960),Adventure|Children,1960.0
+1018,That Darn Cat! (1965),Children|Comedy|Mystery,1965.0
+1019,"20,000 Leagues Under the Sea (1954)",Adventure|Drama|Sci-Fi,1954.0
+1022,Cinderella (1950),Animation|Children|Fantasy|Musical|Romance,1950.0
+1024,"Three Caballeros, The (1945)",Animation|Children|Musical,1945.0
+1025,"Sword in the Stone, The (1963)",Animation|Children|Fantasy|Musical,1963.0
+1028,Mary Poppins (1964),Children|Comedy|Fantasy|Musical,1964.0
+1029,Dumbo (1941),Animation|Children|Drama|Musical,1941.0
+1032,Alice in Wonderland (1951),Adventure|Animation|Children|Fantasy|Musical,1951.0
+1035,"Sound of Music, The (1965)",Musical|Romance,1965.0
+1066,Shall We Dance (1937),Comedy|Musical|Romance,1937.0
+1068,Crossfire (1947),Crime|Film-Noir,1947.0
+1076,"Innocents, The (1961)",Drama|Horror|Thriller,1961.0
+1083,"Great Race, The (1965)",Comedy|Musical,1965.0
+1085,"Old Man and the Sea, The (1958)",Adventure|Drama,1958.0
+1086,Dial M for Murder (1954),Crime|Mystery|Thriller,1954.0
+1099,"Christmas Carol, A (1938)",Children|Drama|Fantasy,1938.0
+1103,Rebel Without a Cause (1955),Drama,1955.0
+1104,"Streetcar Named Desire, A (1951)",Drama,1951.0
+1156,"Children Are Watching Us, The (Bambini ci guardano, I) (1944)",Drama,1944.0
+1178,Paths of Glory (1957),Drama|War,1957.0
+1203,12 Angry Men (1957),Drama,1957.0
+1204,Lawrence of Arabia (1962),Adventure|Drama|War,1962.0
+1207,To Kill a Mockingbird (1962),Drama,1962.0
+1212,"Third Man, The (1949)",Film-Noir|Mystery|Thriller,1949.0
+1219,Psycho (1960),Crime|Horror,1960.0
+1226,"Quiet Man, The (1952)",Drama|Romance,1952.0
+1237,"Seventh Seal, The (Sjunde inseglet, Det) (1957)",Drama,1957.0
+1248,Touch of Evil (1958),Crime|Film-Noir|Thriller,1958.0
+1250,"Bridge on the River Kwai, The (1957)",Adventure|Drama|War,1957.0
+1251,8 1/2 (8½) (1963),Drama|Fantasy,1963.0
+1253,"Day the Earth Stood Still, The (1951)",Drama|Sci-Fi|Thriller,1951.0
+1254,"Treasure of the Sierra Madre, The (1948)",Action|Adventure|Drama|Western,1948.0
+1256,Duck Soup (1933),Comedy|Musical|War,1933.0
+1260,M (1931),Crime|Film-Noir|Thriller,1931.0
+1262,"Great Escape, The (1963)",Action|Adventure|Drama|War,1963.0
+1267,"Manchurian Candidate, The (1962)",Crime|Thriller|War,1962.0
+1269,Arsenic and Old Lace (1944),Comedy|Mystery|Thriller,1944.0
+1281,"Great Dictator, The (1940)",Comedy|Drama|War,1940.0
+1282,Fantasia (1940),Animation|Children|Fantasy|Musical,1940.0
+1283,High Noon (1952),Drama|Western,1952.0
+1284,"Big Sleep, The (1946)",Crime|Film-Noir|Mystery,1946.0
+1287,Ben-Hur (1959),Action|Adventure|Drama,1959.0
+1301,Forbidden Planet (1956),Drama|Sci-Fi,1956.0
+1333,"Birds, The (1963)",Horror|Thriller,1963.0
+1334,"Blob, The (1958)",Horror|Sci-Fi,1958.0
+1337,"Body Snatcher, The (1945)",Drama|Horror|Thriller,1945.0
+1340,"Bride of Frankenstein, The (Bride of Frankenstein) (1935)",Drama|Horror|Sci-Fi,1935.0
+1344,Cape Fear (1962),Crime|Drama|Thriller,1962.0
+1572,"Contempt (Mépris, Le) (1963)",Drama,1963.0
+1924,Plan 9 from Outer Space (1959),Horror|Sci-Fi,1959.0
+1926,"Broadway Melody, The (1929)",Musical,1929.0
+1927,All Quiet on the Western Front (1930),Action|Drama|War,1930.0
+1928,Cimarron (1931),Drama|Western,1931.0
+1929,Grand Hotel (1932),Drama|Romance,1932.0
+1931,Mutiny on the Bounty (1935),Adventure|Drama,1935.0
+1932,"Great Ziegfeld, The (1936)",Drama|Musical,1936.0
+1933,"Life of Emile Zola, The (1937)",Drama,1937.0
+1934,You Can't Take It with You (1938),Comedy|Romance,1938.0
+1936,Mrs. Miniver (1942),Drama|War,1942.0
+1937,Going My Way (1944),Comedy|Drama|Musical,1944.0
+1938,"Lost Weekend, The (1945)",Drama,1945.0
+1939,"Best Years of Our Lives, The (1946)",Drama|War,1946.0
+1940,Gentleman's Agreement (1947),Drama,1947.0
+1941,Hamlet (1948),Drama,1948.0
+1942,All the King's Men (1949),Drama,1949.0
+1944,From Here to Eternity (1953),Drama|Romance|War,1953.0
+1945,On the Waterfront (1954),Crime|Drama,1954.0
+1946,Marty (1955),Drama|Romance,1955.0
+1947,West Side Story (1961),Drama|Musical|Romance,1961.0
+1948,Tom Jones (1963),Adventure|Comedy|Romance,1963.0
+2010,Metropolis (1927),Drama|Sci-Fi,1927.0
+2015,"Absent-Minded Professor, The (1961)",Children|Comedy|Fantasy,1961.0
+2017,Babes in Toyland (1961),Children|Fantasy|Musical,1961.0
+2018,Bambi (1942),Animation|Children|Drama,1942.0
+2019,Seven Samurai (Shichinin no samurai) (1954),Action|Adventure|Drama,1954.0
+2043,Darby O'Gill and the Little People (1959),Adventure|Children|Fantasy,1959.0
+2056,In Search of the Castaways (1962),Adventure|Children,1962.0
+2057,"Incredible Journey, The (1963)",Adventure|Children,1963.0
+2066,Out of the Past (1947),Film-Noir,1947.0
+2067,Doctor Zhivago (1965),Drama|Romance|War,1965.0
+2080,Lady and the Tramp (1955),Animation|Children|Comedy|Romance,1955.0
+2085,101 Dalmatians (One Hundred and One Dalmatians) (1961),Adventure|Animation|Children,1961.0
+2087,Peter Pan (1953),Animation|Children|Fantasy|Musical,1953.0
+2096,Sleeping Beauty (1959),Animation|Children|Musical,1959.0
+2098,Son of Flubber (1963),Children|Comedy,1963.0
+2099,Song of the South (1946),Adventure|Animation|Children|Musical,1946.0
+2102,Steamboat Willie (1928),Animation|Children|Comedy|Musical,1928.0
+2136,"Nutty Professor, The (1963)",Comedy|Sci-Fi,1963.0
+2176,Rope (1948),Crime|Drama|Thriller,1948.0
+2181,Marnie (1964),Drama|Mystery|Romance|Thriller,1964.0
+2182,"Wrong Man, The (1956)",Drama|Film-Noir|Thriller,1956.0
+2183,"Man Who Knew Too Much, The (1956)",Adventure|Drama|Mystery|Thriller,1956.0
+2184,"Trouble with Harry, The (1955)",Comedy|Mystery,1955.0
+2185,I Confess (1953),Thriller,1953.0
+2186,Strangers on a Train (1951),Crime|Drama|Film-Noir|Thriller,1951.0
+2187,Stage Fright (1950),Mystery|Romance|Thriller,1950.0
+2201,"Paradine Case, The (1947)",Drama,1947.0
+2202,Lifeboat (1944),Drama|War,1944.0
+2203,Shadow of a Doubt (1943),Crime|Drama|Thriller,1943.0
+2204,Saboteur (1942),Mystery|Thriller,1942.0
+2205,Mr. & Mrs. Smith (1941),Comedy|Romance,1941.0
+2206,Suspicion (1941),Film-Noir|Mystery|Thriller,1941.0
+2207,Jamaica Inn (1939),Drama,1939.0
+2208,"Lady Vanishes, The (1938)",Drama|Mystery|Thriller,1938.0
+2210,Sabotage (1936),Thriller,1936.0
+2211,Secret Agent (1936),Thriller,1936.0
+2212,"Man Who Knew Too Much, The (1934)",Drama|Thriller,1934.0
+2226,"Ring, The (1927)",Drama,1927.0
+2227,"Lodger: A Story of the London Fog, The (1927)",Crime|Drama|Thriller,1927.0
+2287,Them! (1954),Horror|Sci-Fi|Thriller,1954.0
+2351,"Nights of Cabiria (Notti di Cabiria, Le) (1957)",Drama,1957.0
+2362,Glen or Glenda (1953),Drama,1953.0
+2363,Godzilla (Gojira) (1954),Drama|Horror|Sci-Fi,1954.0
+2365,King Kong vs. Godzilla (Kingukongu tai Gojira) (1962),Action|Sci-Fi,1962.0
+2366,King Kong (1933),Action|Adventure|Fantasy|Horror,1933.0
+2398,Miracle on 34th Street (1947),Comedy|Drama,1947.0
+2430,Mighty Joe Young (1949),Adventure|Children|Drama,1949.0
+2454,"Fly, The (1958)",Horror|Mystery|Sci-Fi,1958.0
+2488,Peeping Tom (1960),Drama|Horror|Thriller,1960.0
+2550,"Haunting, The (1963)",Horror|Thriller,1963.0
+2553,Village of the Damned (1960),Horror|Sci-Fi|Thriller,1960.0
+2554,Children of the Damned (1963),Horror|Sci-Fi|Thriller,1963.0
+2565,"King and I, The (1956)",Drama|Musical|Romance,1956.0
+2612,Mildred Pierce (1945),Drama|Film-Noir,1945.0
+2632,"Saragossa Manuscript, The (Rekopis znaleziony w Saragossie) (1965)",Adventure|Drama|Mystery,1965.0
+2633,"Mummy, The (1932)",Horror|Romance,1932.0
+2634,"Mummy, The (1959)",Horror,1959.0
+2644,Dracula (1931),Horror,1931.0
+2648,Frankenstein (1931),Drama|Horror|Sci-Fi,1931.0
+2651,Frankenstein Meets the Wolf Man (1943),Horror,1943.0
+2652,"Curse of Frankenstein, The (1957)",Horror,1957.0
+2654,"Wolf Man, The (1941)",Drama|Fantasy|Horror,1941.0
+2656,Tarantula (1955),Horror|Sci-Fi,1955.0
+2660,"Thing from Another World, The (1951)",Horror|Sci-Fi,1951.0
+2661,It Came from Outer Space (1953),Sci-Fi,1953.0
+2662,"War of the Worlds, The (1953)",Action|Drama|Sci-Fi,1953.0
+2664,Invasion of the Body Snatchers (1956),Horror|Sci-Fi|Thriller,1956.0
+2665,Earth vs. the Flying Saucers (1956),Sci-Fi,1956.0
+2669,Pork Chop Hill (1959),War,1959.0
+2670,Run Silent Run Deep (1958),War,1958.0
+2726,"Killing, The (1956)",Crime|Film-Noir,1956.0
+2727,Killer's Kiss (1955),Crime|Film-Noir,1955.0
+2728,Spartacus (1960),Action|Drama|Romance|War,1960.0
+2729,Lolita (1962),Drama|Romance,1962.0
+2731,"400 Blows, The (Les quatre cents coups) (1959)",Crime|Drama,1959.0
+2732,Jules and Jim (Jules et Jim) (1961),Drama|Romance,1961.0
+2747,"Little Shop of Horrors, The (1960)",Comedy|Horror,1960.0
+2782,Pit and the Pendulum (1961),Horror,1961.0
+2784,"Masque of the Red Death, The (1964)",Horror,1964.0
+2820,Hamlet (1964),Drama,1964.0
+2847,Only Angels Have Wings (1939),Adventure|Drama|Romance,1939.0
+2848,"Othello (Tragedy of Othello: The Moor of Venice, The) (1952)",Drama,1952.0
+2856,I Saw What You Did (1965),Thriller,1965.0
+2863,"Hard Day's Night, A (1964)",Adventure|Comedy|Musical,1964.0
+2874,"Pajama Game, The (1957)",Comedy|Musical|Romance,1957.0
+2899,Gulliver's Travels (1939),Adventure|Animation|Children,1939.0
+2905,Sanjuro (Tsubaki Sanjûrô) (1962),Action|Adventure|Drama,1962.0
+2927,Brief Encounter (1946),Drama|Romance,1946.0
+2935,"Lady Eve, The (1941)",Comedy|Romance,1941.0
+2936,Sullivan's Travels (1941),Adventure|Comedy|Romance,1941.0
+2937,"Palm Beach Story, The (1942)",Comedy,1942.0
+2939,Niagara (1953),Drama|Thriller,1953.0
+2940,Gilda (1946),Drama|Film-Noir|Mystery|Romance,1946.0
+2941,South Pacific (1958),Musical|Romance|War,1958.0
+2946,Help! (1965),Comedy|Musical,1965.0
+2947,Goldfinger (1964),Action|Adventure|Thriller,1964.0
+2948,From Russia with Love (1963),Action|Adventure|Thriller,1963.0
+2949,Dr. No (1962),Action|Adventure|Thriller,1962.0
+2951,"Fistful of Dollars, A (Per un pugno di dollari) (1964)",Action|Western,1964.0
+2967,"Bad Seed, The (1956)",Drama|Thriller,1956.0
+2983,"Ipcress File, The (1965)",Thriller,1965.0
+2993,Thunderball (1965),Action|Adventure|Thriller,1965.0
+3022,"General, The (1926)",Comedy|War,1926.0
+3030,Yojimbo (1961),Action|Adventure,1961.0
+3035,Mister Roberts (1955),Comedy|Drama|War,1955.0
+3038,"Face in the Crowd, A (1957)",Drama,1957.0
+3061,Holiday Inn (1942),Comedy|Musical,1942.0
+3062,"Longest Day, The (1962)",Action|Drama|War,1962.0
+3073,"Sandpiper, The (1965)",Drama|Romance,1965.0
+3075,Repulsion (1965),Drama|Horror,1965.0
+3076,Irma la Douce (1963),Comedy,1963.0
+3086,Babes in Toyland (1934),Children|Comedy|Fantasy|Musical,1934.0
+3088,Harvey (1950),Comedy|Fantasy,1950.0
+3089,Bicycle Thieves (a.k.a. The Bicycle Thief) (a.k.a. The Bicycle Thieves) (Ladri di biciclette) (1948),Drama,1948.0
+3095,"Grapes of Wrath, The (1940)",Drama,1940.0
+3096,My Man Godfrey (1957),Comedy,1957.0
+3097,"Shop Around the Corner, The (1940)",Comedy|Drama|Romance,1940.0
+3134,Grand Illusion (La grande illusion) (1937),Drama|War,1937.0
+3153,"7th Voyage of Sinbad, The (1958)",Action|Adventure|Fantasy,1958.0
+3171,Room at the Top (1959),Drama,1959.0
+3196,Stalag 17 (1953),Drama|War,1953.0
+3217,"Star Is Born, A (1937)",Drama,1937.0
+3224,Woman in the Dunes (Suna no onna) (1964),Drama,1964.0
+3306,"Circus, The (1928)",Comedy,1928.0
+3307,City Lights (1931),Comedy|Drama|Romance,1931.0
+3315,Happy Go Lovely (1951),Musical,1951.0
+3330,Splendor in the Grass (1961),Drama|Romance,1961.0
+3334,Key Largo (1948),Crime|Drama|Film-Noir|Thriller,1948.0
+3341,Born Yesterday (1950),Comedy,1950.0
+3344,Blood Feast (1963),Horror,1963.0
+3350,"Raisin in the Sun, A (1961)",Drama,1961.0
+3364,"Asphalt Jungle, The (1950)",Crime|Film-Noir,1950.0
+3365,"Searchers, The (1956)",Drama|Western,1956.0
+3368,"Big Country, The (1958)",Romance|Western,1958.0
+3379,On the Beach (1959),Drama,1959.0
+3404,Titanic (1953),Action|Drama,1953.0
+3405,"Night to Remember, A (1958)",Action|Drama,1958.0
+3406,Captain Horatio Hornblower R.N. (1951),Action|Adventure|Drama|War,1951.0
+3414,Love Is a Many-Splendored Thing (1955),Drama|Romance|War,1955.0
+3417,"Crimson Pirate, The (1952)",Adventure|Comedy,1952.0
+3435,Double Indemnity (1944),Crime|Drama|Film-Noir,1944.0
+3447,"Good Earth, The (1937)",Drama,1937.0
+3461,Lord of the Flies (1963),Adventure|Drama|Thriller,1963.0
+3462,Modern Times (1936),Comedy|Drama|Romance,1936.0
+3467,Hud (1963),Drama|Western,1963.0
+3468,"Hustler, The (1961)",Drama,1961.0
+3469,Inherit the Wind (1960),Drama,1960.0
+3475,"Place in the Sun, A (1951)",Drama|Romance,1951.0
+3492,"Son of the Sheik, The (1926)",Adventure|Comedy|Romance,1926.0
+3516,"Bell, Book and Candle (1958)",Comedy|Fantasy|Romance,1958.0
+3546,What Ever Happened to Baby Jane? (1962),Drama|Horror|Thriller,1962.0
+3548,Auntie Mame (1958),Comedy|Drama,1958.0
+3549,Guys and Dolls (1955),Comedy|Musical|Romance,1955.0
+3559,Limelight (1952),Comedy|Drama|Romance,1952.0
+3599,Anchors Aweigh (1945),Comedy|Musical,1945.0
+3604,Gypsy (1962),Musical,1962.0
+3606,On the Town (1949),Comedy|Musical|Romance,1949.0
+3627,Carnival of Souls (1962),Horror|Thriller,1962.0
+3628,Flying Tigers (1942),Action|Drama|Romance|War,1942.0
+3629,"Gold Rush, The (1925)",Adventure|Comedy|Romance,1925.0
+3632,Monsieur Verdoux (1947),Comedy|Crime,1947.0
+3634,Seven Days in May (1964),Thriller,1964.0
+3640,"King in New York, A (1957)",Comedy|Drama,1957.0
+3643,"Fighting Seabees, The (1944)",Action|Drama|War,1944.0
+3648,"Abominable Snowman, The (Abominable Snowman of the Himalayas, The) (1957)",Horror|Sci-Fi,1957.0
+3654,"Guns of Navarone, The (1961)",Action|Adventure|Drama|War,1961.0
+3675,White Christmas (1954),Comedy|Musical|Romance,1954.0
+3678,"Man with the Golden Arm, The (1955)",Drama,1955.0
+3681,For a Few Dollars More (Per qualche dollaro in più) (1965),Action|Drama|Thriller|Western,1965.0
+3736,"Ace in the Hole (Big Carnival, The) (1951)",Drama,1951.0
+3737,Lonely Are the Brave (1962),Drama|Western,1962.0
+3739,Trouble in Paradise (1932),Comedy|Romance,1932.0
+3742,Battleship Potemkin (1925),Drama|War,1925.0
+3789,"Pawnbroker, The (1964)",Drama,1964.0
+3792,Duel in the Sun (1946),Drama|Romance|Western,1946.0
+3801,Anatomy of a Murder (1959),Drama|Mystery,1959.0
+3808,"Two Women (Ciociara, La) (1960)",Drama|War,1960.0
+3832,"Black Sabbath (Tre volti della paura, I) (1963)",Horror,1963.0
+3833,"Brain That Wouldn't Die, The (1962)",Horror|Sci-Fi,1962.0
+3845,And God Created Woman (Et Dieu... créa la femme) (1956),Drama,1956.0
+3849,The Spiral Staircase (1945),Horror|Mystery|Thriller,1945.0
+3870,Our Town (1940),Drama,1940.0
+3871,Shane (1953),Drama|Western,1953.0
+3872,"Suddenly, Last Summer (1959)",Drama,1959.0
+3873,Cat Ballou (1965),Comedy|Western,1965.0
+3922,Bikini Beach (1964),Comedy,1964.0
+3926,Voyage to the Bottom of the Sea (1961),Adventure|Sci-Fi,1961.0
+3928,Abbott and Costello Meet Frankenstein (1948),Comedy|Horror,1948.0
+3929,"Bank Dick, The (1940)",Comedy,1940.0
+3930,"Creature from the Black Lagoon, The (1954)",Adventure|Horror|Sci-Fi,1954.0
+3932,"Invisible Man, The (1933)",Horror|Sci-Fi,1933.0
+3933,"Killer Shrews, The (1959)",Horror|Sci-Fi,1959.0
+3959,"Time Machine, The (1960)",Action|Adventure|Sci-Fi,1960.0
+3963,"Unsinkable Molly Brown, The (1964)",Musical,1964.0
+3964,"Adventures of Ichabod and Mr. Toad, The (1949)",Animation|Children,1949.0
+3965,"Strange Love of Martha Ivers, The (1946)",Drama|Film-Noir,1946.0
+3966,Detour (1945),Crime|Film-Noir,1945.0
+4042,"Alamo, The (1960)",Action|Drama|War|Western,1960.0
+4046,Friendly Persuasion (1956),Drama,1956.0
+4051,Horrors of Spider Island (Ein Toter Hing im Netz) (1960),Horror|Sci-Fi,1960.0
+4178,Of Mice and Men (1939),Drama,1939.0
+4184,"Bishop's Wife, The (1947)",Comedy|Drama|Romance,1947.0
+4187,Lilies of the Field (1963),Drama,1963.0
+4189,"Greatest Story Ever Told, The (1965)",Drama,1965.0
+4190,Elmer Gantry (1960),Drama,1960.0
+4194,I Know Where I'm Going! (1945),Drama|Romance|War,1945.0
+4263,Days of Wine and Roses (1962),Drama,1962.0
+4278,Triumph of the Will (Triumph des Willens) (1934),Documentary,1934.0
+4294,"5,000 Fingers of Dr. T, The (1953)",Children|Fantasy|Musical,1953.0
+4298,Rififi (Du rififi chez les hommes) (1955),Crime|Film-Noir|Thriller,1955.0
+4323,"Horse Soldiers, The (1959)",Adventure|War|Western,1959.0
+4325,"Night, The (Notte, La) (1960)",Drama,1960.0
+4327,"Magnificent Seven, The (1960)",Adventure|Western,1960.0
+4329,Rio Bravo (1959),Western,1959.0
+4338,Twelve O'Clock High (1949),Drama|War,1949.0
+4339,Von Ryan's Express (1965),Action|Adventure|Drama|War,1965.0
+4356,Gentlemen Prefer Blondes (1953),Comedy|Musical|Romance,1953.0
+4357,How to Marry a Millionaire (1953),Comedy|Drama|Romance,1953.0
+4359,"Seven Year Itch, The (1955)",Comedy,1955.0
+4394,Beach Blanket Bingo (1965),Comedy|Musical,1965.0
+4395,Big Deal on Madonna Street (I Soliti Ignoti) (1958),Comedy|Crime,1958.0
+4399,"Diary of a Chambermaid (Journal d'une femme de chambre, Le) (1964)",Comedy|Drama,1964.0
+4402,Dr. Goldfoot and the Bikini Machine (1965),Comedy,1965.0
+4403,"Fall of the House of Usher, The (House of Usher) (1960)",Horror,1960.0
+4404,Faust (1926),Drama|Fantasy|Horror,1926.0
+4406,"Man Who Shot Liberty Valance, The (1962)",Crime|Drama|Western,1962.0
+4419,All That Heaven Allows (1955),Drama|Romance,1955.0
+4420,"Barefoot Contessa, The (1954)",Drama,1954.0
+4426,Kiss Me Deadly (1955),Film-Noir,1955.0
+4428,"Misfits, The (1961)",Comedy|Drama|Romance|Western,1961.0
+4429,Moby Dick (1956),Drama,1956.0
+4432,Sweet Smell of Success (1957),Drama|Film-Noir,1957.0
+4433,Written on the Wind (1956),Drama,1956.0
+4434,"10th Victim, The (La decima vittima) (1965)",Action|Comedy|Sci-Fi|Thriller,1965.0
+4687,Billy Liar (1963),Comedy,1963.0
+4704,Hatari! (1962),Adventure|Comedy,1962.0
+4792,13 Ghosts (1960),Horror,1960.0
+4795,Father Goose (1964),Adventure|Comedy|Romance|War,1964.0
+4796,"Grass Is Greener, The (1960)",Comedy|Romance,1960.0
+4798,Indiscreet (1958),Comedy|Romance,1958.0
+4799,"It's a Mad, Mad, Mad, Mad World (1963)",Action|Adventure|Comedy|Crime,1963.0
+4800,King Solomon's Mines (1937),Action|Adventure|Drama|Romance|Thriller,1937.0
+4801,"Little Foxes, The (1941)",Drama,1941.0
+4802,Operation Petticoat (1959),Action|Comedy|Romance|War,1959.0
+4804,Pocketful of Miracles (1961),Comedy|Drama,1961.0
+4813,When Worlds Collide (1951),Sci-Fi,1951.0
+4914,Breathless (À bout de souffle) (1960),Crime|Drama|Romance,1960.0
+4920,"Now, Voyager (1942)",Drama|Romance,1942.0
+4921,Little Women (1933),Drama|Romance,1933.0
+4942,"Angry Red Planet, The (1959)",Sci-Fi,1959.0
+4954,Ocean's Eleven (a.k.a. Ocean's 11) (1960),Comedy|Crime,1960.0
+4966,"Incredible Shrinking Man, The (1957)",Sci-Fi|Thriller,1957.0
+4969,And Then There Were None (1945),Crime|Mystery,1945.0
+4970,"Blue Angel, The (Blaue Engel, Der) (1930)",Drama,1930.0
+4998,"Defiant Ones, The (1958)",Adventure|Crime|Drama|Thriller,1958.0
+5007,Topkapi (1964),Adventure|Comedy|Thriller,1964.0
+5008,Witness for the Prosecution (1957),Drama|Mystery|Thriller,1957.0
+5063,One-Eyed Jacks (1961),Western,1961.0
+5099,Heidi (1937),Children|Drama,1937.0
+5114,"Bad and the Beautiful, The (1952)",Drama,1952.0
+5116,Designing Woman (1957),Comedy,1957.0
+5147,Wild Strawberries (Smultronstället) (1957),Drama,1957.0
+5168,Royal Wedding (1951),Comedy|Musical|Romance,1951.0
+5177,"Magnificent Ambersons, The (1942)",Drama|Romance,1942.0
+5231,Road to Morocco (1942),Comedy,1942.0
+5291,Rashomon (Rashômon) (1950),Crime|Drama|Mystery,1950.0
+5300,3:10 to Yuma (1957),Action|Adventure|Drama|Thriller|Western,1957.0
+5304,"Rome, Open City (a.k.a. Open City) (Roma, città aperta) (1945)",Drama|War,1945.0
+5333,Bob le Flambeur (1955),Crime|Drama,1955.0
+5372,Calamity Jane (1953),Musical|Western,1953.0
+5373,"Cranes Are Flying, The (Letyat zhuravli) (1957)",Drama|Romance|War,1957.0
+5375,"Harvey Girls, The (1946)",Comedy|Musical|Western,1946.0
+5384,I Want to Live! (1958),Crime|Drama,1958.0
+5397,Monkey Business (1952),Comedy|Sci-Fi,1952.0
+5398,Requiem for a Heavyweight (1962),Drama,1962.0
+5434,"Sorry, Wrong Number (1948)",Drama|Film-Noir|Thriller,1948.0
+5440,She Wore a Yellow Ribbon (1949),Western,1949.0
+5468,20 Million Miles to Earth (1957),Sci-Fi,1957.0
+5470,The Importance of Being Earnest (1952),Comedy|Romance,1952.0
+5497,Our Man Flint (1965),Adventure|Comedy|Sci-Fi,1965.0
+5498,Red Beard (Akahige) (1965),Drama,1965.0
+5550,Love Me Tender (1956),Musical|Western,1956.0
+5560,À nous la liberté (Freedom for Us) (1931),Comedy|Musical,1931.0
+5601,"Yearling, The (1946)",Children|Drama,1946.0
+5602,"Ladykillers, The (1955)",Comedy|Crime,1955.0
+5603,"Lavender Hill Mob, The (1951)",Comedy|Crime,1951.0
+5604,"Man in the White Suit, The (1951)",Comedy|Sci-Fi,1951.0
+5638,Godzilla vs. Mothra (Mosura tai Gojira) (1964),Action|Adventure|Fantasy|Sci-Fi,1964.0
+5640,"Godzilla, King of the Monsters! (Kaijû-ô Gojira) (1956)",Horror|Sci-Fi,1956.0
+5644,"Pride of the Yankees, The (1942)",Drama,1942.0
+5649,Horror of Dracula (Dracula) (1958),Horror,1958.0
+5651,"Incredible Mr. Limpet, The (1964)",Animation|Comedy|War,1964.0
+5799,Exodus (1960),Drama|Romance|War,1960.0
+5802,"World of Henry Orient, The (1964)",Comedy,1964.0
+5826,Rio Grande (1950),Romance|Western,1950.0
+5836,Houseboat (1958),Comedy|Romance,1958.0
+5899,Zulu (1964),Action|Drama|War,1964.0
+5963,"Children's Hour, The (1961)",Drama,1961.0
+5974,"Thief of Bagdad, The (1940)",Adventure|Fantasy,1940.0
+5975,War and Peace (1956),Drama|Romance|War,1956.0
+5979,Attack of the Crab Monsters (1957),Horror|Sci-Fi,1957.0
+6020,Alice Adams (1935),Comedy|Drama,1935.0
+6023,Band of Outsiders (Bande à part) (1964),Comedy|Crime|Drama|Romance,1964.0
+6030,Girls! Girls! Girls! (1962),Comedy|Musical,1962.0
+6031,Imitation of Life (1959),Drama|Romance,1959.0
+6035,Pépé le Moko (1937),Crime|Drama|Romance,1937.0
+6064,"Harder They Fall, The (1956)",Drama|Film-Noir,1956.0
+6178,"Patch of Blue, A (1965)",Drama|Romance,1965.0
+6181,"Red Badge of Courage, The (1951)",Drama|War,1951.0
+6182,"Thrill of It All, The (1963)",Comedy,1963.0
+6183,Pillow Talk (1959),Comedy|Musical|Romance,1959.0
+6225,King of Kings (1961),Drama,1961.0
+6228,"Talk of the Town, The (1942)",Comedy|Romance|Thriller,1942.0
+6237,"Glenn Miller Story, The (1953)",Drama,1953.0
+6239,Journey to the Center of the Earth (1959),Adventure|Children|Sci-Fi,1959.0
+6254,"Awful Truth, The (1937)",Comedy|Romance,1937.0
+6273,In a Lonely Place (1950),Drama|Film-Noir|Mystery|Romance,1950.0
+6302,Beginning of the End (1957),Sci-Fi,1957.0
+6357,High Society (1956),Comedy|Musical|Romance,1956.0
+6358,Kiss Me Kate (1953),Comedy|Musical|Romance,1953.0
+6390,Silk Stockings (1957),Musical,1957.0
+6405,Treasure Island (1950),Adventure|Children,1950.0
+6412,Destry Rides Again (1939),Comedy|Western,1939.0
+6422,Shenandoah (1965),Drama|War|Western,1965.0
+6429,Winchester '73 (1950),Western,1950.0
+6433,"Man with the Movie Camera, The (Chelovek s kino-apparatom) (1929)",Documentary,1929.0
+6434,"Objective, Burma! (1945)",War,1945.0
+6448,"Flight of the Phoenix, The (1965)",Action|Adventure|Drama,1965.0
+6449,From the Terrace (1960),Drama,1960.0
+6452,"Long, Hot Summer, The (1958)",Drama,1958.0
+6453,Man of Aran (1934),Documentary,1934.0
+6460,"Trial, The (Procès, Le) (1962)",Drama,1962.0
+6461,"Unforgiven, The (1960)",Drama|Western,1960.0
+6477,"Song of Bernadette, The (1943)",Drama,1943.0
+6514,Ring of Terror (1962),Horror,1962.0
+6515,You Only Live Once (1937),Crime|Film-Noir,1937.0
+6516,Anastasia (1956),Drama,1956.0
+6527,Scaramouche (1952),Adventure|Romance,1952.0
+6561,"Mouse That Roared, The (1959)",Comedy|War,1959.0
+6578,"Kiss Me, Stupid (1964)",Comedy,1964.0
+6579,"One, Two, Three (1961)",Comedy,1961.0
+6603,"Double Life, A (1947)",Crime|Drama|Film-Noir,1947.0
+6609,"Gospel According to St. Matthew, The (Vangelo secondo Matteo, Il) (1964)",Drama,1964.0
+6611,Umberto D. (1952),Drama,1952.0
+6629,House of Wax (1953),Crime|Horror|Mystery|Thriller,1953.0
+6643,Tokyo Story (Tôkyô monogatari) (1953),Drama,1953.0
+6650,Kind Hearts and Coronets (1949),Comedy|Drama,1949.0
+6654,Atragon (Kaitei Gunkan) (1963),Adventure|Sci-Fi,1963.0
+6656,Attack of the Puppet People (1958),Horror|Sci-Fi,1958.0
+6660,"Red Shoes, The (1948)",Drama|Fantasy|Musical|Romance,1948.0
+6662,"Pink Panther, The (1963)",Comedy|Crime,1963.0
+6669,Ikiru (1952),Drama,1952.0
+6777,Judgment at Nuremberg (1961),Drama,1961.0
+6783,"Rules of the Game, The (La règle du jeu) (1939)",Comedy|Drama,1939.0
+6785,Seven Brides for Seven Brothers (1954),Comedy|Musical|Romance|Western,1954.0
+6836,"Amazing Transparent Man, The (1960)",Sci-Fi,1960.0
+6837,Love Affair (1939),Comedy|Drama|Romance,1939.0
+6856,Yankee Doodle Dandy (1942),Drama|Musical,1942.0
+6858,Knife in the Water (Nóz w wodzie) (1962),Drama,1962.0
+6911,"Jolson Story, The (1946)",Musical,1946.0
+6912,You'll Never Get Rich (1941),Comedy|Musical|Romance,1941.0
+6918,"Unvanquished, The (Aparajito) (1957)",Drama,1957.0
+6967,Dead of Night (1945),Horror|Mystery,1945.0
+6970,Desk Set (1957),Comedy|Romance,1957.0
+6981,"Ordet (Word, The) (1955)",Drama,1955.0
+6982,Forbidden Games (Jeux interdits) (1952),Drama|War,1952.0
+6983,Jane Eyre (1944),Drama|Romance,1944.0
+6984,"Tale of Two Cities, A (1935)",Drama,1935.0
+6985,"Passion of Joan of Arc, The (Passion de Jeanne d'Arc, La) (1928)",Drama,1928.0
+6986,Ben-Hur: A Tale of the Christ (1925),Adventure|Drama|Romance,1925.0
+7013,"Night of the Hunter, The (1955)",Drama|Film-Noir|Thriller,1955.0
+7049,Flying Down to Rio (1933),Comedy|Musical|Romance,1933.0
+7050,Follow the Fleet (1936),Comedy|Musical|Romance,1936.0
+7052,Mary of Scotland (1936),Drama,1936.0
+7053,Roberta (1935),Comedy|Musical|Romance,1935.0
+7054,Little Women (1949),Drama,1949.0
+7055,Swing Time (1936),Comedy|Musical|Romance,1936.0
+7056,"Public Enemy, The (1931)",Action|Crime|Drama,1931.0
+7057,"Midsummer Night's Dream, A (1935)",Comedy|Fantasy|Romance,1935.0
+7058,Life with Father (1947),Comedy,1947.0
+7059,National Velvet (1944),Children|Drama,1944.0
+7061,Dark Victory (1939),Drama|Romance,1939.0
+7062,Birdman of Alcatraz (1962),Drama,1962.0
+7064,Beauty and the Beast (La belle et la bête) (1946),Drama|Fantasy,1946.0
+7067,Juliet of the Spirits (Giulietta degli spiriti) (1965),Comedy|Drama|Fantasy|Romance,1965.0
+7070,Red River (1948),Action|Adventure|Western,1948.0
+7072,Stagecoach (1939),Action|Drama|Romance|Western,1939.0
+7073,"Shot in the Dark, A (1964)",Comedy|Crime|Mystery,1964.0
+7075,"Court Jester, The (1956)",Adventure|Comedy|Musical,1956.0
+7078,Jezebel (1938),Drama,1938.0
+7079,"Hunchback of Notre Dame, The (1939)",Drama,1939.0
+7080,42nd Street (1933),Drama|Musical|Romance,1933.0
+7082,That Touch of Mink (1962),Comedy|Romance,1962.0
+7085,Send Me No Flowers (1964),Comedy|Romance,1964.0
+7086,Pygmalion (1938),Comedy|Drama,1938.0
+7088,Black Orpheus (Orfeu Negro) (1959),Drama|Romance,1959.0
+7091,Horse Feathers (1932),Comedy,1932.0
+7092,Anna Karenina (1935),Drama|Romance,1935.0
+7114,"Collector, The (1965)",Drama|Horror|Thriller,1965.0
+7116,Diabolique (Les diaboliques) (1955),Horror|Mystery|Thriller,1955.0
+7121,Adam's Rib (1949),Comedy|Romance,1949.0
+7131,"Summer Place, A (1959)",Drama,1959.0
+7132,"Night at the Opera, A (1935)",Comedy|Musical|Romance,1935.0
+7181,Ship of Fools (1965),Drama,1965.0
+7206,Mon Oncle (My Uncle) (1958),Comedy,1958.0
+7208,Dr. Jekyll and Mr. Hyde (1941),Drama|Horror,1941.0
+7209,"M. Hulot’s Holiday (Mr. Hulot's Holiday) (Vacances de Monsieur Hulot, Les) (1953)",Comedy,1953.0
+7211,People Will Talk (1951),Comedy|Romance,1951.0
+7212,I Was a Male War Bride (1949),Comedy|Romance,1949.0
+7215,To Have and Have Not (1944),Adventure|Drama|Romance|Thriller|War,1944.0
+7216,High Sierra (1941),Crime|Drama|Film-Noir|Thriller,1941.0
+7217,Dark Passage (1947),Crime|Drama|Film-Noir|Romance|Thriller,1947.0
+7218,"Ox-Bow Incident, The (1943)",Drama|Western,1943.0
+7219,They Drive by Night (1940),Drama,1940.0
+7222,Reefer Madness (a.k.a. Tell Your Children) (1938),Comedy|Drama,1938.0
+7223,D.O.A. (1950),Drama|Film-Noir|Mystery,1950.0
+7234,"Strada, La (1954)",Drama,1954.0
+7238,Ashes and Diamonds (Popiól i diament) (1958),Drama|War,1958.0
+7245,Tormented (1960),Horror|Thriller,1960.0
+7301,Diary of a Country Priest (Journal d'un curé de campagne) (1951),Drama,1951.0
+7303,The Diary of Anne Frank (1959),Drama|War,1959.0
+7311,"Goodbye, Mr. Chips (1939)",Drama|Romance,1939.0
+7333,"Corbeau, Le (Raven, The) (1943)",Crime|Drama|Thriller,1943.0
+7335,Pickup on South Street (1953),Film-Noir,1953.0
+7344,"Wrong Arm of the Law, The (1963)",Comedy|Crime,1963.0
+7357,Peyton Place (1957),Drama|Romance,1957.0
+7386,"Ten Commandments, The (1956)",Adventure|Drama,1956.0
+7394,Those Magnificent Men in Their Flying Machines (1965),Action|Adventure|Comedy,1965.0
+7395,Cheaper by the Dozen (1950),Comedy|Drama,1950.0
+7479,Watch on the Rhine (1943),Drama,1943.0
+7493,"Three Faces of Eve, The (1957)",Drama,1957.0
+7560,Fail-Safe (1964),Drama|Thriller|War,1964.0
+7564,Kwaidan (Kaidan) (1964),Horror,1964.0
+7579,Pride and Prejudice (1940),Comedy|Drama|Romance,1940.0
+7581,"Fountainhead, The (1949)",Drama,1949.0
+7584,Woman of the Year (1942),Comedy|Romance,1942.0
+7614,Oklahoma! (1955),Musical|Romance|Western,1955.0
+7619,"Miracle Worker, The (1962)",Drama,1962.0
+7700,"Wages of Fear, The (Salaire de la peur, Le) (1953)",Action|Adventure|Drama|Thriller,1953.0
+7702,"Bells of St. Mary's, The (1945)",Drama,1945.0
+7705,Pat and Mike (1952),Comedy|Romance,1952.0
+7706,Animal Crackers (1930),Comedy|Musical,1930.0
+7713,Cat People (1942),Drama|Horror|Romance|Thriller,1942.0
+7728,"Postman Always Rings Twice, The (1946)",Crime|Drama|Film-Noir|Thriller,1946.0
+7748,Pierrot le fou (1965),Crime|Drama,1965.0
+7756,Alexander Nevsky (Aleksandr Nevskiy) (1938),Action|Drama|War,1938.0
+7757,Jason and the Argonauts (1963),Action|Adventure|Fantasy,1963.0
+7766,Throne of Blood (Kumonosu jô) (1957),Action|Drama|Thriller|War,1957.0
+7772,Undercurrent (1946),Film-Noir|Thriller,1946.0
+7820,"Virgin Spring, The (Jungfrukällan) (1960)",Crime|Drama,1960.0
+7822,Mogambo (1953),Adventure|Drama|Romance,1953.0
+7826,"Secret Life of Walter Mitty, The (1947)",Comedy|Romance|Thriller,1947.0
+7831,Another Thin Man (1939),Comedy|Crime|Drama|Mystery|Romance,1939.0
+7832,"Thin Man Goes Home, The (1945)",Comedy|Crime|Mystery,1945.0
+7833,Shadow of the Thin Man (1941),Comedy|Crime|Mystery,1941.0
+7834,After the Thin Man (1936),Comedy|Crime|Mystery|Romance,1936.0
+7835,Song of the Thin Man (1947),Comedy|Crime|Drama|Musical|Mystery|Romance,1947.0
+7839,Love Crazy (1941),Comedy,1941.0
+7840,Gunga Din (1939),Adventure|Comedy|War,1939.0
+7883,I Walked with a Zombie (1943),Drama|Horror,1943.0
+7891,"Last Man on Earth, The (Ultimo uomo della Terra, L') (1964)",Drama|Horror|Sci-Fi,1964.0
+7896,Ride the High Country (1962),Adventure|Drama|Western,1962.0
+7916,Gidget (1959),Comedy,1959.0
+7924,Stray Dog (Nora inu) (1949),Drama|Film-Noir|Thriller,1949.0
+7925,"Hidden Fortress, The (Kakushi-toride no san-akunin) (1958)",Action|Adventure,1958.0
+7926,High and Low (Tengoku to jigoku) (1963),Crime|Drama|Film-Noir|Thriller,1963.0
+7937,"Silence, The (Tystnaden) (1963)",Drama,1963.0
+7938,Winter Light (Nattvardsgästerna) (1963),Drama,1963.0
+7939,Through a Glass Darkly (Såsom i en spegel) (1961),Drama,1961.0
+7940,The Magician (1958),Drama,1958.0
+7943,"Killers, The (1946)",Crime|Film-Noir,1946.0
+7944,"Night of the Iguana, The (1964)",Drama|Thriller,1964.0
+7993,"Bucket Of Blood, A (1959)",Comedy|Horror,1959.0
+8008,Brigadoon (1954),Fantasy|Musical|Romance,1954.0
+8044,I Am a Fugitive from a Chain Gang (1932),Crime|Drama|Film-Noir,1932.0
+8057,Sweet Bird of Youth (1962),Drama,1962.0
+8094,Bad Day at Black Rock (1955),Drama|Thriller|Western,1955.0
+8125,Sunrise: A Song of Two Humans (1927),Drama|Romance,1927.0
+8126,Shock Corridor (1963),Drama,1963.0
+8136,Indestructible Man (1956),Crime|Horror|Sci-Fi,1956.0
+8137,"Wasp Woman, The (1959)",Horror|Sci-Fi,1959.0
+8138,Attack of the Giant Leeches (1959),Horror|Sci-Fi,1959.0
+8143,Lola Montès (1955),Drama,1955.0
+8153,Lust for Life (1956),Drama,1956.0
+8154,"Dolce Vita, La (1960)",Drama,1960.0
+8167,Captain Blood (1935),Action|Adventure|Romance,1935.0
+8188,Sansho the Bailiff (Sanshô dayû) (1954),Drama,1954.0
+8189,Zazie dans le métro (1960),Comedy,1960.0
+8190,"Americanization of Emily, The (1964)",Comedy|Drama|War,1964.0
+8195,"Avventura, L' (Adventure, The) (1960)",Drama|Mystery|Romance,1960.0
+8197,Hiroshima Mon Amour (1959),Drama|Romance|War,1959.0
+8199,Ugetsu (Ugetsu monogatari) (1953),Drama|Thriller,1953.0
+8228,"Maltese Falcon, The (a.k.a. Dangerous Female) (1931)",Mystery,1931.0
+8232,I Love You Again (1940),Comedy|Drama,1940.0
+8236,While the City Sleeps (1956),Drama|Film-Noir,1956.0
+8239,Viridiana (1961),Comedy|Drama,1961.0
+8275,College (1927),Comedy,1927.0
+8302,"Front Page, The (1931)",Comedy|Drama|Romance,1931.0
+8331,"Man Who Came to Dinner, The (1942)",Comedy,1942.0
+8335,Make Way for Tomorrow (1937),Drama,1937.0
+8336,"Major and the Minor, The (1942)",Comedy|Romance,1942.0
+8337,"Caine Mutiny, The (1954)",Drama|War,1954.0
+8338,Black Narcissus (1947),Drama,1947.0
+8341,Oliver Twist (1948),Adventure|Crime|Drama,1948.0
+8385,Lover Come Back (1961),Comedy|Romance,1961.0
+8410,Suddenly (1954),Crime|Drama|Film-Noir,1954.0
+8424,"Divorcee, The (1930)",Drama|Romance,1930.0
+8446,Sands of Iwo Jima (1949),Action|Drama|Romance|War,1949.0
+8447,This Island Earth (1955),Sci-Fi,1955.0
+8450,Anthony Adverse (1936),Adventure|Romance,1936.0
+8451,Blackboard Jungle (1955),Drama,1955.0
+8458,To Each His Own (1946),Drama,1946.0
+8459,"Heiress, The (1949)",Drama|Romance,1949.0
+8461,Dragon Seed (1944),Drama|War,1944.0
+8462,Executive Suite (1954),Drama,1954.0
+8463,Johnny Belinda (1948),Drama,1948.0
+8465,Johnny Eager (1942),Crime|Drama|Film-Noir|Romance,1942.0
+8477,"Jetée, La (1962)",Romance|Sci-Fi,1962.0
+8481,Northwest Passage (1940),Action|Adventure|Drama|Romance|Thriller|Western,1940.0
+8482,"Picture of Dorian Gray, The (1945)",Drama|Fantasy|Horror,1945.0
+8484,"Human Condition I, The (Ningen no joken I) (1959)",Drama|War,1959.0
+8487,Please Don't Eat the Daisies (1960),Children|Comedy|Musical,1960.0
+8491,White Heat (1949),Crime|Drama|Film-Noir,1949.0
+8492,"Christmas Carol, A (Scrooge) (1951)",Drama|Fantasy,1951.0
+8494,"Cincinnati Kid, The (1965)",Drama,1965.0
+8502,Show Boat (1951),Drama|Musical|Romance,1951.0
+8507,Freaks (1932),Crime|Drama|Horror,1932.0
+8518,Anna Christie (1930),Drama,1930.0
+8521,Dr. Jekyll and Mr. Hyde (1931),Drama|Horror,1931.0
+8542,"Day at the Races, A (1937)",Comedy|Musical,1937.0
+8600,Angels with Dirty Faces (1938),Crime|Drama|Film-Noir|Thriller,1938.0
+8601,Zero de conduite (Zero for Conduct) (Zéro de conduite: Jeunes diables au collège) (1933),Comedy|Drama,1933.0
+8611,"Farmer's Daughter, The (1947)",Comedy,1947.0
+8617,Butterfield 8 (1960),Drama,1960.0
+8620,"Exterminating Angel, The (Ángel exterminador, El) (1962)",Comedy|Drama|Fantasy|Mystery,1962.0
+8626,Dr. Terror's House of Horrors (1965),Horror|Sci-Fi,1965.0
+8650,Long Day's Journey Into Night (1962),Drama,1962.0
+8670,"Testament of Dr. Mabuse, The (Das Testament des Dr. Mabuse) (1933)",Crime|Horror|Mystery|Thriller,1933.0
+8677,Flash Gordon Conquers the Universe (1940),Action|Sci-Fi,1940.0
+8684,"Man Escaped, A (Un  condamné à mort s'est échappé ou Le vent souffle où il veut) (1956)",Adventure|Drama,1956.0
+8685,"Miracle of Marcelino, The (Marcelino pan y vino) (1955)",Comedy|Drama,1955.0
+8695,"Bachelor and the Bobby-Soxer, The (1947)",Comedy,1947.0
+8711,Mr. Blandings Builds His Dream House (1948),Comedy,1948.0
+8712,My Favorite Wife (1940),Comedy|Romance,1940.0
+8714,Night and Day (1946),Drama|Musical,1946.0
+8718,"Snake Pit, The (1948)",Drama,1948.0
+8724,"Leopard, The (Gattopardo, Il) (1963)",Drama|War,1963.0
+8738,"Woman Is a Woman, A (femme est une femme, Une) (1961)",Comedy|Drama|Musical|Romance,1961.0
+8748,"Yesterday, Today and Tomorrow (Ieri, oggi, domani) (1963)",Comedy,1963.0
+8765,This Gun for Hire (1942),Crime|Film-Noir|Thriller,1942.0
+8771,Sherlock Holmes: Terror by Night (1946),Crime|Mystery|Thriller,1946.0
+8772,"Spy Who Came in from the Cold, The (1965)",Drama|Thriller,1965.0
+8773,Sherlock Holmes and the Secret Weapon (1942),Crime|Mystery|Thriller,1942.0
+8774,Sherlock Holmes: The Woman in Green (1945),Mystery,1945.0
+8778,Sherlock Holmes: Dressed to Kill (1946),Crime|Mystery,1946.0
+8848,"Vitelloni, I (a.k.a. The Young and the Passionate) (1953)",Drama,1953.0
+8875,"Come Back, Little Sheba (1952)",Drama,1952.0
+8920,"Country Girl, The (1954)",Drama,1954.0
+8921,"Rose Tattoo, The (1955)",Drama|Romance,1955.0
+8989,Damn Yankees! (1958),Comedy|Musical,1958.0
+9008,"Invisible Man Returns, The (1940)",Horror|Sci-Fi,1940.0
+25752,"Freshman, The (1925)",Comedy,1925.0
+25757,"Jazz Singer, The (1927)",Drama|Musical|Romance,1927.0
+25769,"Steamboat Bill, Jr. (1928)",Comedy|Romance,1928.0
+25771,"Andalusian Dog, An (Chien andalou, Un) (1929)",Fantasy,1929.0
+25773,Little Caesar (1931),Crime|Drama,1931.0
+25782,Boudu Saved From Drowning (Boudu sauvé des eaux) (1932),Comedy,1932.0
+25788,Scarface (1932),Crime|Drama,1932.0
+25795,Dinner at Eight (1933),Comedy|Drama|Romance,1933.0
+25797,Gold Diggers of 1933 (1933),Musical,1933.0
+25805,"Atalante, L' (1934)",Comedy|Drama|Romance,1934.0
+25825,Fury (1936),Drama|Film-Noir,1936.0
+25826,Libeled Lady (1936),Comedy|Romance,1936.0
+25827,Mr. Deeds Goes to Town (1936),Comedy|Romance,1936.0
+25833,Camille (1936),Drama|Romance,1936.0
+25834,Captains Courageous (1937),Adventure|Drama,1937.0
+25841,Stage Door (1937),Drama,1937.0
+25850,Holiday (1938),Comedy|Drama|Romance,1938.0
+25855,"Roaring Twenties, The (1939)",Crime|Drama|Thriller,1939.0
+25856,Wuthering Heights (1939),Drama|Romance,1939.0
+25865,"Letter, The (1940)",Drama|Film-Noir,1940.0
+25870,Here Comes Mr. Jordan (1941),Comedy|Fantasy|Romance,1941.0
+25886,Random Harvest (1942),Drama|Romance,1942.0
+25887,Tales of Manhattan (1942),Comedy|Drama,1942.0
+25898,Day of Wrath (Vredens dag) (1943),Drama,1943.0
+25905,"Miracle of Morgan's Creek, The (1944)",Comedy|Romance,1944.0
+25906,Mr. Skeffington (1944),Drama|Romance,1944.0
+25923,Great Expectations (1946),Drama,1946.0
+25927,"Stranger, The (1946)",Drama|Film-Noir|Thriller,1946.0
+25937,Easter Parade (1948),Musical|Romance,1948.0
+25940,"Lady from Shanghai, The (1947)",Drama|Film-Noir|Mystery,1947.0
+25946,"Three Musketeers, The (1948)",Action|Adventure|Drama|Romance,1948.0
+25947,Unfaithfully Yours (1948),Comedy,1948.0
+25952,"Letter to Three Wives, A (1949)",Comedy|Drama,1949.0
+25959,Annie Get Your Gun (1950),Comedy|Musical|Romance|Western,1950.0
+25962,King Solomon's Mines (1950),Action|Adventure|Romance,1950.0
+25963,"Young and the Damned, The (Olvidados, Los) (1950)",Crime|Drama,1950.0
+25996,"Star Is Born, A (1954)",Drama|Musical,1954.0
+25999,The Wild One (1953),Drama,1953.0
+26002,Confidential Report (1955),Crime|Drama|Mystery|Thriller,1955.0
+26003,Night and Fog (Nuit et brouillard) (1955),Crime|Documentary|War,1955.0
+26038,Teacher's Pet (1958),Comedy|Romance,1958.0
+26048,"Human Condition II, The (Ningen no joken II) (1959)",Drama|War,1959.0
+26052,Pickpocket (1959),Crime|Drama,1959.0
+26059,When a Woman Ascends the Stairs (Onna ga kaidan wo agaru toki) (1960),Drama,1960.0
+26073,"Human Condition III, The (Ningen no joken III) (1961)",Drama|War,1961.0
+26078,Advise and Consent (1962),Drama,1962.0
+26082,Harakiri (Seppuku) (1962),Drama,1962.0
+26084,"Music Man, The (1962)",Children|Comedy|Musical|Romance,1962.0
+26085,Mutiny on the Bounty (1962),Adventure|Drama|Romance,1962.0
+26095,"Carabineers, The (Carabiniers, Les) (1963)",Comedy|Drama|War,1963.0
+26116,"Hush... Hush, Sweet Charlotte (1964)",Horror|Thriller,1964.0
+26122,Onibaba (1964),Drama|Horror|War,1964.0
+26124,Robinson Crusoe on Mars (1964),Sci-Fi,1964.0
+26133,"Charlie Brown Christmas, A (1965)",Animation|Children|Comedy,1965.0
+26142,Major Dundee (1965),Adventure|War|Western,1965.0
+26147,"Thousand Clowns, A (1965)",Comedy|Drama|Romance,1965.0
+31030,I Remember Mama (1948),Children|Drama,1948.0
+31116,Sergeant York (1941),Drama|War,1941.0
+31260,Boys Town (1938),Drama,1938.0
+31297,Gold Diggers of 1935 (1935),Comedy|Musical,1935.0
+31309,Rocco and His Brothers (Rocco e i suoi fratelli) (1960),Crime|Drama,1960.0
+31545,"Trou, Le (Hole, The) (Night Watch, The) (1960)",Crime|Film-Noir,1960.0
+31590,Hands Off the Loot (Touchez pas au grisbi) (1954),Crime|Drama|Thriller,1954.0
+31617,El Cid (1961),Action|Adventure|Drama|Romance|War,1961.0
+31737,Bunny Lake Is Missing (1965),Mystery|Thriller,1965.0
+31851,Sons of the Desert (1933),Comedy,1933.0
+31973,Germany Year Zero (Germania anno zero) (Deutschland im Jahre Null) (1948),Drama|War,1948.0
+32060,"Cat and the Canary, The (1927)",Horror|Mystery,1927.0
+32139,"Agony and the Ecstasy, The (1965)",Drama,1965.0
+32160,Twentieth Century (1934),Comedy,1934.0
+32179,Elevator to the Gallows (a.k.a. Frantic) (Ascenseur pour l'échafaud) (1958),Crime|Drama|Thriller,1958.0
+32371,Call Northside 777 (1948),Crime|Drama|Film-Noir,1948.0
+32469,We're No Angels (1955),Comedy|Crime|Drama,1955.0
+32799,Maidens in Uniform (Mädchen in Uniform) (1931),Drama|Romance,1931.0
+32875,Holiday (Jour de fête) (1949),Comedy,1949.0
+32892,Ivan's Childhood (a.k.a. My Name is Ivan) (Ivanovo detstvo) (1962),Drama|War,1962.0
+32917,Boccaccio '70 (1962),Comedy|Fantasy|Romance,1962.0
+33237,San Francisco (1936),Drama|Musical|Romance,1936.0
+33312,"Cocoanuts, The (1929)",Comedy|Musical,1929.0
+33564,Divorce - Italian Style (Divorzio all'italiana) (1961),Comedy,1961.0
+33781,Quo Vadis (1951),Drama|Romance,1951.0
+34018,At the Circus (1939),Comedy|Musical,1939.0
+34482,"Browning Version, The (1951)",Drama,1951.0
+35347,Animal Farm (1954),Animation|Drama,1954.0
+35807,"Teahouse of the August Moon, The (1956)",Comedy,1956.0
+37211,Go West (1940),Comedy|Musical|Western,1940.0
+38164,"All This, and Heaven Too (1940)",Drama|Romance,1940.0
+40578,Sword of the Beast (Kedamono no ken) (1965),Action|Drama,1965.0
+42556,7 Faces of Dr. Lao (1964),Fantasy|Mystery|Western,1964.0
+42559,Samurai Assassin (Samurai) (1965),Action|Adventure|Drama,1965.0
+44597,Youth of the Beast (Yaju no seishun) (1963),Action|Crime|Mystery,1963.0
+44931,Secrets of a Soul (Geheimnisse einer Seele) (1926),Drama,1926.0
+46664,"Fallen Idol, The (1948)",Drama|Mystery|Thriller,1948.0
+47566,Born to Kill (1947),Crime|Drama|Film-Noir,1947.0
+47721,"Red Balloon, The (Ballon rouge, Le) (1956)",Children|Fantasy,1956.0
+47736,"Chump at Oxford, A (1940)",Comedy,1940.0
+48649,Chapayev (1934),Drama|War,1934.0
+49688,"Dam Busters, The (1955)",Action|Drama|War,1955.0
+50354,The Return of Don Camillo (1953),Comedy,1953.0
+50356,The Little World of Don Camillo (1952),Comedy,1952.0
+50740,Seven Up! (1964),Documentary,1964.0
+51573,Meshes of the Afternoon (1943),Fantasy,1943.0
+54121,Broken Arrow (1950),Drama|Romance|Western,1950.0
+55854,"Fugitive, The (1947)",Drama,1947.0
+62208,"Sound of the Mountain (Thunder of the Mountain, The) (Yama no oto) (1954)",Drama,1954.0
+63768,Tattooed Life (Irezumi ichidai) (1965),Crime|Drama,1965.0
+65350,"General Died at Dawn, The (1936)",Adventure|Crime|Thriller,1936.0
+67888,Man on the Flying Trapeze (1935),Comedy,1935.0
+68872,Paisan (Paisà) (1946),Drama|War,1946.0
+70492,Winds of the Wasteland (1936),Western,1936.0
+71147,Death of a Cyclist (Muerte de un ciclista) (1955),Drama,1955.0
+71302,Attack of the 50 Foot Woman (1958),Comedy|Sci-Fi,1958.0
+71453,"Blood of the Beasts (Sang des bêtes, Le) (1949)",Documentary|Drama,1949.0
+71970,"Princess and the Pirate, The (1944)",Adventure|Comedy|Romance,1944.0
+73501,Pekka ja Pätkä Suezilla (1958),Comedy,1958.0
+73854,"Rudolph, the Red-Nosed Reindeer (1964)",Adventure|Animation|Children|Fantasy|Musical,1964.0
+74089,Peter Pan (1960),Children|Fantasy|Musical,1960.0
+74342,"Captain Newman, M.D. (1963)",Comedy|Drama|War,1963.0
+75947,Mondo Cane (1962),Documentary,1962.0
+80748,Alice in Wonderland (1933),Adventure|Children|Fantasy,1933.0
+81681,I Shot Jesse James (1949),Drama|Romance|Western,1949.0
+83969,Down Argentine Way (1940),Comedy|Drama|Romance,1940.0
+84246,It Happened on Fifth Avenue (1947),Comedy|Romance,1947.0
+84512,Girls About Town (1931),Comedy,1931.0
+84553,Pekka ja Pätkä salapoliiseina (1957),Comedy,1957.0
+86864,Mothra (Mosura) (1961),Adventure|Fantasy|Sci-Fi,1961.0
+89939,Gigi (1949),Comedy,1949.0
+90243,Three Outlaw Samurai (Sanbiki no samurai) (1964),Action|Drama,1964.0
+91666,Last Holiday (1950),Comedy|Drama|Romance,1950.0
+92637,Pitfall (Otoshiana) (1962),Crime|Drama|Fantasy,1962.0
+92760,"Atomic Brain, The (1963)",Horror|Sci-Fi,1963.0
+93114,Ro.Go.Pa.G. (1963),Comedy|Drama,1963.0
+94262,"Atomic Submarine, The (1959)",Sci-Fi|Thriller,1959.0
+95843,Goodbye Charlie (1964),Comedy|Fantasy|Romance,1964.0
+96084,Hands Over the City (Le mani sulla città) (1963),Drama,1963.0
+97285,Take Aim at the Police Van (Sono gosôsha wo nerae: 'Jûsangô taihisen' yori) (1960),Action|Crime|Mystery,1960.0
+101074,"Legend of Sleepy Hollow, The (1949)",Animation|Comedy|Horror|Musical,1949.0
+107159,Zatoichi and the Chest of Gold (Zatôichi senryô-kubi) (Zatôichi 6) (1964),Action|Drama,1964.0
+114335,La cravate (1957),(no genres listed),1957.0
+116718,Volga - Volga (1938),Comedy|Musical,1938.0
+120761,By the Law (1926),Drama,1926.0
+121338,Carry on Cabby (1963),Adventure|Comedy|Romance,1963.0
+121342,Carry on Cruising (1962),Comedy|Romance,1962.0
+123545,The Blue Lagoon (1949),Drama|Romance,1949.0
+125221,The Beast of Hollow Mountain (1956),Horror|Sci-Fi|Western,1956.0
+127052,Operation 'Y' & Other Shurik's Adventures (1965),Comedy|Crime|Romance,1965.0
+130482,Too Late for Tears (1949),Crime|Drama|Film-Noir|Mystery|Thriller,1949.0
+133716,Bootleggers (1961),Comedy|Crime,1961.0
+134019,The Monkey King (1964),Animation,1964.0
+134849,Duck Amuck (1953),Animation|Children|Comedy,1953.0
+147196,The Girls (1961),Comedy|Romance,1961.0
+151745,Reptilicus (1961),Horror|Sci-Fi,1961.0
+160422,The Wooden Horse (1950),Drama|War,1950.0
+167296,Iron Man (1931),Drama,1931.0
+172793,Vovka in the Kingdom of Far Far Away (1965),Adventure|Animation|Children|Fantasy,1965.0
+174551,Obsession (1965),Comedy,1965.0
+174737,Don Camillo in Moscow (1965),Comedy,1965.0
+175781,Der Herr Karl (1961),Comedy,1961.0
+176621,Boniface's Holiday (1965),Animation|Children|Comedy|Romance,1965.0
+179073,Male Hunt (1964),Comedy,1964.0
+182293,Hare-um Scare-um (1939),Animation|Children|Comedy,1939.0
+182297,Porky in Wackyland (1938),Animation|Comedy|Fantasy,1938.0
+182299,Porky's Hare Hunt (1938),Animation|Children|Comedy,1938.0
